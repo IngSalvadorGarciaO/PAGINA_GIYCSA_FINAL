@@ -16,14 +16,19 @@
 </head>
 <body>
 
-    <header class="navbar">
-        <div class="logo">GIYC SA DE CV</div>
+   <header class="navbar">
+        <div class="logo">
+            <a href="#inicio">
+                <img src="logo-giycsa-blanco.png" alt="Logo de GIYC SA DE CV">
+            </a>
+        </div>
         <nav>
             <a href="#inicio">Inicio</a>
             <a href="#identidad">Identidad</a>
-            <a href="#proyectos">Proyectos</a>
+            <a href="#historia">Proyectos</a> 
             <a href="#maquinaria">Maquinaria</a>
             <a href="#servicios">Servicios</a>
+            <a href="#clientes">Clientes</a>
             <a href="#contacto">Contacto</a>
         </nav>
         <div class="menu-toggle">☰</div>
@@ -31,254 +36,398 @@
 
     <main>
         <section id="inicio" class="full-screen active">
-            <div class="video-background">
+                <div class="video-background">
+                    <video autoplay loop muted playsinline>
+                        <source src="videos/intro.mp4" type="video/mp4">
+                        <source src="videos/intro.webm" type="video/webm">
+                    </video>
                 <div class="video-overlay"></div>
-                <video autoplay loop muted playsinline>
-                    <source src="videos/tu-video.webm" type="video/webm"> 
-                    <source src="videos/tu-video.mp4" type="video/mp4">
-                </video>
             </div>
             <div class="content-wrapper">
                 <h1>Construyendo el Futuro. Hoy.</h1>
                 <p>Tu socio confiable en construcción de viviendas, infraestructura y renta de maquinaria pesada de alto rendimiento.</p>
-                <a href="#proyectos" class="cta-button">Ver Proyectos Destacados</a>
+                <a href="#historia" class="cta-button">Ver Proyectos Destacados</a>
             </div>
         </section>
 
         <section id="identidad" class="full-screen hidden">
             <div class="content-wrapper">
-                <h2>Nuestra Identidad: Misión, Visión y Valores</h2>
-                <p>GIYC SA DE CV transforma visiones en estructuras sólidas, con un compromiso de calidad, ética y desarrollo sustentable.</p>
-                
-                <div class="mvv-grid">
-                    <div class="mvv-card">
-                        <h3>Misión</h3>
-                        <p>Realizar proyectos integrales de obras públicas y privadas, desde la planeación hasta la construcción, así como la venta, alquiler y asesoría de bienes inmobiliarios, utilizando tecnología de punta y buscando siempre la satisfacción del cliente.</p>
-                    </div>
-                    <div class="mvv-card">
-                        <h3>Visión</h3>
-                        <p>Ser una empresa de alto desempeño en servicios de inmobiliaria, diseño y construcción en la región, con rumbo hacia la mejora continua y contribuyendo responsablemente en el desarrollo sustentable.</p>
-                    </div>
-                </div>
+                <h2>Nuestra Identidad y Equipo</h2>
+                <p>El motor de GIYC es nuestro equipo de profesionales, comprometidos con la excelencia y la satisfacción de nuestros clientes.</p>
+            </div>
 
-                <div class="values-list">
-                    <h3>Valores Centrales</h3>
-                    <div class="value-tags">
-                        <span>Honestidad</span>
-                        <span>Calidad</span>
-                        <span>Seguridad</span>
-                        <span>Respeto</span>
-                        <span>Lealtad</span>
-                        <span>Eficiencia</span>
-                        <span>Eficacia</span>
-                        <span>Certeza</span>
-                        <span>Servicio</span>
-                        <span>Profesionalismo</span>
-                        <span>Trabajo en equipo</span>
-                        <span>Respeto</span>
+            <div class="team-scroller">
+                <div class="team-scroller__inner">
+                    <div class="team-card">
+                        <img src="images/team/member-1.webp" alt="Foto de [Arq Chava]">
+                        <h3>Arq. Salvador García Guzmán</h3>
+                        <p class="title">Director General</p>
+                        <p class="description">"Liderando cada proyecto con una visión de calidad y futuro."</p>
+                    </div>
+                    <div class="team-card">
+                        <img src="images/team/member-2.webp" alt="Foto de [Arq Raul]">
+                        <h3>Arq. Raul García Ochoa</h3>
+                        <p class="title">Jefa de Diseño</p>
+                        <p class="description">"Transformando ideas en espacios funcionales y estéticos."</p>
+                    </div>
+                    <div class="team-card">
+                        <img src="images/team/member-3.webp" alt="Foto de [Ing Luis]">
+                        <h3>Ing. Luis Enrique Guzmán</h3>
+                        <p class="title">Gerente Administrativo</p>
+                        <p class="description">"Garantizando la eficiencia y el orden en cada proceso."</p>
+                    </div>
+                    <div class="team-card">
+                        <img src="images/team/member-4.webp" alt="Foto de [Ing Chava JR]">
+                        <h3>Ing. Salvador García Ochoa</h3>
+                        <p class="title">Jefe de Maquinaria</p>
+                        <p class="description">"La potencia y precisión que impulsa nuestras obras."</p>
+                    </div>
+
+                    <div class="team-card">
+                        <img src="images/team/member-5.webp" alt="Foto de [Lic Melina]">
+                        <h3>Lic. Laura Melina Zuñiga</h3>
+                        <p class="title">Administracion y Recepción</p>
+                        <p class="description">"Meli es nuestro primer contacto con la mayoria de los clientes, siempre dispuesta a atenderte de la mejor forma."</p>
+                    </div>
+                     <div class="team-card">
+                        <img src="images/team/member-1.webp" alt="Foto de [Arq Chava]">
+                        <h3>Arq. Salvador García Guzmán</h3>
+                        <p class="title">Director General</p>
+                        <p class="description">"Liderando cada proyecto con una visión de calidad y futuro."</p>
+                    </div>
+                    <div class="team-card">
+                        <img src="images/team/member-7.webp" alt="Foto de [Arq Becerra]">
+                        <h3>Arq. Oscar Becerra</h3>
+                        <p class="title">Area de Supervisión y Diseño</p>
+                        <p class="description">"Transformando ideas en espacios funcionales y estéticos."</p>
+                    </div>
+                    <div class="team-card">
+                        <img src="images/team/member-7.webp" alt="Foto de [Arq Hugo]">
+                        <h3>Arq. Victor Hugo Guzmán</h3>
+                        <p class="title">Area de Supervisión y Diseño</p>
+                        <p class="description">"Transformando ideas en espacios funcionales y estéticos."</p>
+                    </div>
+                    <div class="team-card">
+                        <img src="images/team/member-7.webp" alt="Foto de [Arq Alejandro]">
+                        <h3>Arq. Alejandro Bernardino</h3>
+                        <p class="title">Area de Supervisión y Diseño</p>
+                        <p class="description">"Transformando ideas en espacios funcionales y estéticos."</p>
+                    </div>
+                    <div class="team-card">
+                        <img src="images/team/member-7.webp" alt="Foto de [Don Oscar]">
+                        <h3>Sup. Oscar Flores Michel</h3>
+                        <p class="title">Area de Supervisión y Diseño</p>
+                        <p class="description">"Suministrando lo necesario para el correcto funcionamiento de cada proyecto."</p>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section id="historia" class="full-screen hidden">
-            <div class="content-wrapper">
-                <h2>Nuestra Trayectoria en Imágenes</h2>
-                <p>Desde 2015, transformando visiones en estructuras sólidas. Cada imagen representa un hito en nuestro camino. Haz clic en la imagen del proyeto para ver mas informacion del mismo</p>
-                <div class="photo-mosaic">
-                    <div class="mosaic-item"  data-project-id="lomas-del-barro">
-                        <img src="images/mosaico/fachada-lomas.webp" alt="Obra 1">
+        <section id="historia" class="carousel-section hidden">
+            <div class="carousel-sticky-container">
+                <button class="carousel-arrow prev" aria-label="Proyecto anterior">‹</button>
+                <div class="carousel-track-wrapper">
+                    <div class="carousel-intro-text">
+                        <h2>Nuestra Trayectoria en Proyectos</h2>
+                        <p>Desde 2015, transformando visiones en estructuras sólidas. Desliza para explorar nuestros hitos.</p>
                     </div>
-                    <div class="mosaic-item" data-project-id="callejones">
-                        <img src="images/mosaico/fachada-callejones.png" alt="obra-2">
-                    </div>
-                    <div class="mosaic-item"  data-project-id="depas-zapotiltic">
-                        <img src="images/mosaico/fachada-zapo.webp" alt="Obra 3">
-                    </div>
-                    <div class="mosaic-item" data-project-id="carretera-sanmiguel">
-                        <img src="images/mosaico/carretera-sanmiguel.webp" alt="obra-4">
-                    </div>
-                    <div class="mosaic-item"  data-project-id="casa-maple">
-                        <img src="images/mosaico/maple.webp" alt="Obra 5">
-                    </div>
-                    <div class="mosaic-item" data-project-id="casa-lazaro">
-                        <img src="images/mosaico/fachada-lazaro.webp" alt="obra-6">
-                    </div>
-                    <div class="mosaic-item" data-project-id="nucleo-medico">
-                        <img src="images/mosaico/fachada-nucleo.webp" alt="obra-7">
+                    <div class="carousel-track">
+                        <div class="carousel-item" data-project-id="lomas-del-barro">
+                            <img src="images/mosaico/fachada-lomas.webp" alt="Casa Lomas del Barro">
+                            <div class="item-caption">
+                                <h3>Casa Lomas del Barro</h3>
+                                <p>Click para más información</p>
+                            </div>
+                        </div>
+                        <div class="carousel-item" data-project-id="callejones">
+                            <img src="images/mosaico/fachada-callejones.webp" alt="Casa Callejones">
+                             <div class="item-caption">
+                                <h3>Casa Callejones</h3>
+                                <p>Click para más información</p>
+                            </div>
+                        </div>
+                        <div class="carousel-item" data-project-id="depas-zapotiltic">
+                            <img src="images/mosaico/fachada-zapo.webp" alt="Departamentos Zapotiltic">
+                             <div class="item-caption">
+                                <h3>Edificio de Departamentos Zapotiltic</h3>
+                                <p>Click para más información</p>
+                            </div>
+                        </div>
+                        <div class="carousel-item" data-project-id="carretera-sanmiguel">
+                            <img src="images/mosaico/carretera-sanmiguel.webp" alt="Carretera San Miguel">
+                             <div class="item-caption">
+                                <h3>Carretera San Miguel - El Platanar</h3>
+                                <p>Click para más información</p>
+                            </div>
+                        </div>
+                        <div class="carousel-item" data-project-id="casa-maple">
+                            <img src="images/mosaico/maple.webp" alt="Casa Maple">
+                             <div class="item-caption">
+                                <h3>Casa Maple</h3>
+                                <p>Click para más información</p>
+                            </div>
+                        </div>
+                        <div class="carousel-item" data-project-id="casa-lazaro">
+                            <img src="images/mosaico/fachada-lazaro.webp" alt="Casa Lazaro Cárdenas">
+                             <div class="item-caption">
+                                <h3>Casa Lázaro Cárdenas</h3>
+                                <p>Click para más información</p>
+                            </div>
+                        </div>
+                        <div class="carousel-item" data-project-id="nucleo-medico">
+                            <img src="images/mosaico/fachada-nucleo.webp" alt="Nucleo Medico HZ">
+                             <div class="item-caption">
+                                <h3>Núcleo Médico HZ</h3>
+                                <p>Click para más información</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
+                 <button class="carousel-arrow next" aria-label="Siguiente proyecto">›</button>
             </div>
         </section>
 
         <section id="proyectos" class="full-screen hidden">
             <div class="content-wrapper">
-                <h2>Proyectos Destacados</h2>
-                <p>Calidad, diseño y funcionalidad en cada obra. Con experiencia en edificación, infraestructura y sector agrícola.</p>
-                <div class="gallery-proyectos">
-                    <figure class="project-card">
-                        <img src="images/proyectos/reservorio.jpg" alt="Construcción de reservorio de agua">
+                <h2>Proyectos Destacados en Video</h2>
+                <p>Calidad, diseño y funcionalidad en cada obra. Desliza para ver nuestros proyectos en acción.</p>
+            </div>
+            
+            <div class="horizontal-carousel-wrapper">
+                <div class="horizontal-carousel-inner">
+                    <figure class="project-video-card">
+                        <video loop muted playsinline poster="images/proyectos/posters/reservorio.webp">
+                            <source data-src="videos/proyecto-reservorio.webm" type="video/webm">
+                            <source data-src="videos/proyecto-reservorio.mp4" type="video/mp4">
+                        </video>
                         <figcaption>
                             <h3>Construcción de Reservorio Agrícola</h3>
-                            <p>Infraestructura para el almacenamiento de agua para la agricultura.</p>
+                            <p>Infraestructura para el almacenamiento de agua.</p>
                         </figcaption>
                     </figure>
-                    <figure class="project-card">
-                        <img src="images/proyectos/pav.jpg" alt="Pavimentación de calle con asfalto">
+
+                    <figure class="project-video-card">
+                        <video loop muted playsinline poster="images/proyectos/posters/pavimentacion.webp">
+                            <source data-src="videos/proyecto-pavimentacion.webm" type="video/webm">
+                            <source data-src="videos/proyecto-pavimentacion.mp4" type="video/mp4">
+                        </video>
                         <figcaption>
                             <h3>Pavimentación de Vía Urbana</h3>
-                            <p>Diseño y construcción de pavimento hidráulico y asfáltico.</p>
+                            <p>Pavimento hidráulico y asfáltico de alta durabilidad.</p>
                         </figcaption>
                     </figure>
-                    <figure class="project-card">
-                        <img src="images/mosaico/fachada-nucleo.webp" alt="Fachada de vivienda residencial de lujo">
+
+                    <figure class="project-video-card">
+                        <video loop muted playsinline poster="images/proyectos/posters/nucleo-medico.webp">
+                            <source data-src="videos/proyecto-nucleo-medico.webm" type="video/webm">
+                            <source data-src="videos/proyecto-nucleo-medico.mp4" type="video/mp4">
+                        </video>
                         <figcaption>
-                            <h3>Edificacion de Nucleo Medico de Especialidades</h3>
+                            <h3>Núcleo Médico de Especialidades</h3>
                             <p>Proyectos llave en mano con acabados de alta calidad.</p>
                         </figcaption>
                     </figure>
-                    <figure class="project-card">
-                        <img src="images/proyectos/nave.jpg" alt="Construcción de nave insdustrial">
+
+                    <figure class="project-video-card">
+                        <video loop muted playsinline poster="images/proyectos/posters/nave-industrial.webp">
+                            <source data-src="videos/proyecto-nave-industrial.webm" type="video/webm">
+                            <source data-src="videos/proyecto-nave-industrial.mp4" type="video/mp4">
+                        </video>
                         <figcaption>
-                            <h3>Construcción de nave industrial</h3>
-                            <p>Construccion de naves industriales de todas las capacidades, trabajos para empaques, bodegas, hangáres.</p>
+                            <h3>Construcción de Nave Industrial</h3>
+                            <p>Soluciones para empaques, bodegas y hangáres.</p>
                         </figcaption>
                     </figure>
                 </div>
             </div>
+            <div class="custom-scrollbar"></div>
         </section>
-
+    
         <section id="maquinaria" class="full-screen hidden">
             <div class="content-wrapper">
                 <h2>Maquinaria Disponible</h2>
                 <p>Equipos de última generación listos para tu obra. Selecciona los que necesites para tu cotización.</p>
-                <div class="machinery-grid">
+            </div>
+
+            <div class="horizontal-carousel-wrapper">
+                <div class="horizontal-carousel-inner">
                     <div class="machinery-card">
-                        <img src="images/maquinaria/maquina-excavadora.jpeg" alt="Excavadora Caterpillar 320DL">
-                        <div class="machinery-title">
-                            <h3>Excavadora Caterpillar 320DL</h3>
+                        <img src="images/maquinaria/maquina-excavadora.webp" alt="Excavadora Caterpillar 320DL">
+                        <div class="machinery-header">
+                            <h3>Excavadora 320DL</h3>
                             <input type="checkbox" name="maquinaria[]" value="Excavadora Caterpillar 320DL" id="maq1">
-                            <label for="maq1" class="visually-hidden">Seleccionar Excavadora Caterpillar 320DL</label>
+                            <label for="maq1" class="checkbox-label"></label>
                         </div>
-                        <div class="machinery-info">
-                            <div class="info-polaroid"><strong>Peso:</strong> 22 Ton</div>
-                            <div class="info-polaroid"><strong>Caballaje:</strong> 162 HP</div>
-                            <div class="info-polaroid"><strong>Precio/Hora:</strong> Cotizar</div>
-                            <div class="info-polaroid"><strong>Rendimiento:</strong> 110 m³/h</div>
+                        <div class="machinery-specs">
+                            <div><strong>Peso:</strong> 22 Ton</div>
+                            <div><strong>Caballaje:</strong> 162 HP</div>
+                            <div><strong>Rendimiento:</strong> 110 m³/h</div>
+                            <a href="#contacto" class="spec-price"><strong>Precio/Hora:</strong> Cotizar</a>
                         </div>
                     </div>
                     <div class="machinery-card">
-                        <img src="images/maquinaria/maquina-retroexcavadora.jpeg" alt="Retroexcavadora Caterpillar 416E">
-                        <div class="machinery-title">
-                            <h3>Retroexcavadora Caterpillar 416E</h3>
+                        <img src="images/maquinaria/maquina-retroexcavadora.webp" alt="Retroexcavadora Caterpillar 416E">
+                         <div class="machinery-header">
+                            <h3>Retroexcavadora 416E</h3>
                             <input type="checkbox" name="maquinaria[]" value="Retroexcavadora 416E" id="maq2">
-                            <label for="maq2" class="visually-hidden">Seleccionar Retroexcavadora 416E</label>
+                            <label for="maq2" class="checkbox-label"></label>
                         </div>
-                        <div class="machinery-info">
-                            <div class="info-polaroid"><strong>Peso:</strong> 7 Ton</div>
-                            <div class="info-polaroid"><strong>Caballaje:</strong> 93 HP</div>
-                            <div class="info-polaroid"><strong>Precio/Hora:</strong> Cotizar</div>
-                            <div class="info-polaroid"><strong>Rendimiento:</strong> 40 m³/h</div>
+                        <div class="machinery-specs">
+                            <div><strong>Peso:</strong> 7 Ton</div>
+                            <div><strong>Caballaje:</strong> 93 HP</div>
+                            <div><strong>Rendimiento:</strong> 40 m³/h</div>
+                            <a href="#contacto" class="spec-price"><strong>Precio/Hora:</strong> Cotizar</a>
                         </div>
                     </div>
-                    <div class="machinery-card">
-                        <img src="images/maquinaria/maquina-motoconformadora.jpg" alt="Motoconformadora Caterpillar 140H">
-                        <div class="machinery-title">
-                            <h3>Motoconformadora Caterpillar 140H</h3>
+                     <div class="machinery-card">
+                        <img src="images/maquinaria/maquina-motoconformadora.webp" alt="Motoconformadora Caterpillar 140H">
+                         <div class="machinery-header">
+                            <h3>Motoconformadora 140H</h3>
                             <input type="checkbox" name="maquinaria[]" value="Motoconformadora Caterpillar 140H" id="maq3">
-                            <label for="maq3" class="visually-hidden">Seleccionar Motoconformadora 140H</label>
+                            <label for="maq3" class="checkbox-label"></label>
                         </div>
-                        <div class="machinery-info">
-                            <div class="info-polaroid"><strong>Peso:</strong> 12 Ton</div>
-                            <div class="info-polaroid"><strong>Caballaje:</strong> 162 HP</div>
-                            <div class="info-polaroid"><strong>Precio/Hora:</strong> Cotizar</div>
-                            <div class="info-polaroid"><strong>Rendimiento:</strong> 110 m³/h</div>
+                        <div class="machinery-specs">
+                            <div><strong>Peso:</strong> 12 Ton</div>
+                            <div><strong>Caballaje:</strong> 162 HP</div>
+                            <div><strong>Rendimiento:</strong> 110 m³/h</div>
+                            <a href="#contacto" class="spec-price"><strong>Precio/Hora:</strong> Cotizar</a>
                         </div>
                     </div>
-                    <div class="machinery-card">
-                        <img src="images/maquinaria/maquina-bulldozer.jpg" alt="Bulldozer Caterpillar D6R XL">
-                        <div class="machinery-title">
-                            <h3>Bulldozer Caterpillar D6R XL</h3>
+                     <div class="machinery-card">
+                        <img src="images/maquinaria/maquina-bulldozer.webp" alt="Bulldozer Caterpillar D6R XL">
+                         <div class="machinery-header">
+                            <h3>Bulldozer D6R XL</h3>
                             <input type="checkbox" name="maquinaria[]" value="Bulldozer D6R XL" id="maq4">
-                            <label for="maq4" class="visually-hidden">Seleccionar Bulldozer D6R XL</label>
+                            <label for="maq4" class="checkbox-label"></label>
                         </div>
-                        <div class="machinery-info">
-                            <div class="info-polaroid"><strong>Peso:</strong> 21 Ton</div>
-                            <div class="info-polaroid"><strong>Caballaje:</strong> 200 HP</div>
-                            <div class="info-polaroid"><strong>Precio/Hora:</strong> Cotizar</div>
-                            <div class="info-polaroid"><strong>Rendimiento:</strong> 150 m³/h</div>
+                         <div class="machinery-specs">
+                            <div><strong>Peso:</strong> 21 Ton</div>
+                            <div><strong>Caballaje:</strong> 200 HP</div>
+                            <div><strong>Rendimiento:</strong> 150 m³/h</div>
+                            <a href="#contacto" class="spec-price"><strong>Precio/Hora:</strong> Cotizar</a>
                         </div>
                     </div>
                     <div class="machinery-card">
-                        <img src="images/maquinaria/maquinaria-minicargador.jpeg" alt="Minicargador Caterpillar 262D">
-                        <div class="machinery-title">
-                            <h3>Minicargador Caterpillar 262D</h3>
+                        <img src="images/maquinaria/maquinaria-minicargador.webp" alt="Minicargador Caterpillar 262D">
+                         <div class="machinery-header">
+                            <h3>Minicargador 262D</h3>
                             <input type="checkbox" name="maquinaria[]" value="Minicargador Caterpillar 262D" id="maq5">
-                            <label for="maq5" class="visually-hidden">Seleccionar Minicargador 262D</label>
+                            <label for="maq5" class="checkbox-label"></label>
                         </div>
-                        <div class="machinery-info">
-                            <div class="info-polaroid"><strong>Peso:</strong> 5 Ton</div>
-                            <div class="info-polaroid"><strong>Caballaje:</strong> 50 HP</div>
-                            <div class="info-polaroid"><strong>Precio/Hora:</strong> Cotizar</div>
-                            <div class="info-polaroid"><strong>Rendimiento:</strong> 40 m³/h</div>
+                         <div class="machinery-specs">
+                            <div><strong>Peso:</strong> 5 Ton</div>
+                            <div><strong>Caballaje:</strong> 50 HP</div>
+                            <div><strong>Rendimiento:</strong> 40 m³/h</div>
+                            <a href="#contacto" class="spec-price"><strong>Precio/Hora:</strong> Cotizar</a>
                         </div>
                     </div>
                     <div class="machinery-card">
-                        <img src="images/maquinaria/maquinaria-rodillo.jpeg" alt="Rodillo Dynapac CA250">
-                        <div class="machinery-title">
-                            <h3>Rodillo Compactador Dynapac CA250</h3>
+                        <img src="images/maquinaria/maquinaria-rodillo.webp" alt="Rodillo Dynapac CA250">
+                         <div class="machinery-header">
+                            <h3>Rodillo Dynapac CA250</h3>
                             <input type="checkbox" name="maquinaria[]" value="Rodillo Dynapac CA250" id="maq6">
-                            <label for="maq6" class="visually-hidden">Seleccionar Rodillo Dynapac CA250</label>
+                            <label for="maq6" class="checkbox-label"></label>
                         </div>
-                        <div class="machinery-info">
-                            <div class="info-polaroid"><strong>Peso:</strong> 12 Ton</div>
-                            <div class="info-polaroid"><strong>Caballaje:</strong> 100 HP</div>
-                            <div class="info-polaroid"><strong>Precio/Hora:</strong> Cotizar</div>
-                            <div class="info-polaroid"><strong>Rendimiento:</strong> 1000 m2/dia</div>
+                         <div class="machinery-specs">
+                            <div><strong>Peso:</strong> 12 Ton</div>
+                            <div><strong>Caballaje:</strong> 100 HP</div>
+                            <div><strong>Rendimiento:</strong> 1000 m²/día</div>
+                            <a href="#contacto" class="spec-price"><strong>Precio/Hora:</strong> Cotizar</a>
                         </div>
                     </div>
                 </div>
             </div>
+            <div class="custom-scrollbar"></div>
         </section>
-        
+                
         <section id="servicios" class="full-screen hidden">
-             <div class="content-wrapper">
-                 <h2>Servicios Integrales y Especializados</h2>
-                 <p>Ofrecemos soluciones llave en mano, desde el desarrollo inmobiliario hasta la infraestructura pesada, respaldados por la experiencia de GIYC.</p>
-                 
-                 <div class="mvv-grid special-services">
-                     <div class="mvv-card">
-                         <h3>Asesoría de Crédito de Vivienda</h3>
-                         <p>Facilitamos el proceso de adquisición de tu vivienda. Somos un servicio con registro autorizado ante CONOCER para el trámite de créditos INFONAVIT y FOVISSSTE.</p>
-                     </div>
-                     <div class="mvv-card">
-                         <h3>Servicios Inmobiliarios</h3>
-                         <p>Gestión completa de compra, venta, alquiler y administración de bienes inmobiliarios, incluyendo viviendas, locales comerciales y terrenos.</p>
-                     </div>
-                     <div class="mvv-card">
-                         <h3>Infraestructura Pesada</h3>
-                         <p>Desarrollo de proyectos viales, infraestructura carretera y urbana.</p>
-                     </div>
-                     <div class="mvv-card">
-                         <h3>Sector Agrícola</h3>
-                         <p>Edificación de plataformas y estructuras agrícolas (ej. reservorios, empaques, plataformas para invernaderos).</p>
-                     </div>
-                 </div>
+            <div class="content-wrapper">
+                <h2>Servicios Integrales y Especializados</h2>
+                <p>Ofrecemos soluciones llave en mano, desde el desarrollo inmobiliario hasta la infraestructura pesada.</p>
+            </div>
 
-                 <ul class="service-list">
-                     <li>Edificación Especializada: Construcción de hospitales, escuelas, vivienda residencial y multifamiliar.</li>
-                     <li>Renta por Hora/Día de Maquinaria Ligera y Pesada de alto rendimiento.</li>
-                     <li>Levantamientos Topográficos con estación total y rover GPS.</li>
-                     <li>Demoliciones y levantamiento de escombros y material de desperdicio de obra.</li>
-                 </ul>
-             </div>
+            <div class="horizontal-carousel-wrapper">
+                <div class="horizontal-carousel-inner">
+                    <div class="service-card" style="background-image: url('images/servicios/credito.webp');">
+                        <div class="service-card-content">
+                            <h3>Asesoría de Crédito de Vivienda</h3>
+                            <p>Facilitamos el proceso de adquisición de tu vivienda con asesoría certificada para INFONAVIT y FOVISSSTE.</p>
+                        </div>
+                    </div>
+                    <div class="service-card" style="background-image: url('images/servicios/inmobiliaria.webp');">
+                        <div class="service-card-content">
+                            <h3>Servicios Inmobiliarios</h3>
+                            <p>Gestión completa de compra, venta, alquiler y administración de bienes inmobiliarios, locales y terrenos.</p>
+                        </div>
+                    </div>
+                    <div class="service-card" style="background-image: url('images/servicios/infraestructura.webp');">
+                        <div class="service-card-content">
+                            <h3>Infraestructura Pesada</h3>
+                            <p>Desarrollo de proyectos viales, puentes y obras de urbanización de gran escala.</p>
+                        </div>
+                    </div>
+                    <div class="service-card" style="background-image: url('images/servicios/agricola.webp');">
+                        <div class="service-card-content">
+                            <h3>Sector Agrícola</h3>
+                            <p>Edificación de plataformas, reservorios, empaques e invernaderos, optimizados para la productividad.</p>
+                        </div>
+                    </div>
+                    <div class="service-card" style="background-image: url('images/servicios/edificacion.webp');">
+                        <div class="service-card-content">
+                            <h3>Edificación Especializada</h3>
+                            <p>Construcción de hospitales, escuelas y vivienda residencial cumpliendo con los más altos estándares.</p>
+                        </div>
+                    </div>
+                    <div class="service-card" style="background-image: url('images/servicios/renta.webp');">
+                        <div class="service-card-content">
+                            <h3>Renta de Maquinaria</h3>
+                            <p>Renta por hora o día de maquinaria ligera y pesada de alto rendimiento para cualquier tipo de obra.</p>
+                        </div>
+                    </div>
+                    <div class="service-card" style="background-image: url('images/servicios/topografia.webp');">
+                        <div class="service-card-content">
+                            <h3>Topografía y Demoliciones</h3>
+                            <p>Levantamientos con estación total y GPS, demoliciones controladas y manejo de escombros.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="custom-scrollbar"></div>
         </section>
 
+
+        <section id="clientes" class="full-screen hidden">
+            <div class="content-wrapper">
+                <h2>Nuestros Clientes</h2>
+                <p>Empresas que han depositado su confianza en la calidad y el profesionalismo de GIYC.</p>
+            </div>
+
+            <div class="logo-scroller">
+                <div class="logo-scroller__inner">
+                    <img src="images/logos/cliente-1.webp" alt="Logo Cliente 1">
+                    <img src="images/logos/cliente-2.webp" alt="Logo Cliente 2">
+                    <img src="images/logos/cliente-3.webp" alt="Logo Cliente 3">
+                    <img src="images/logos/cliente-4.webp" alt="Logo Cliente 4">
+                    <img src="images/logos/cliente-5.webp" alt="Logo Cliente 5">
+                    <img src="images/logos/cliente-6.webp" alt="Logo Cliente 6">
+                    <img src="images/logos/cliente-7.webp" alt="Logo Cliente 7">
+
+                    <img src="images/logos/cliente-1.webp" alt="Logo Cliente 1">
+                    <img src="images/logos/cliente-2.webp" alt="Logo Cliente 2">
+                    <img src="images/logos/cliente-3.webp" alt="Logo Cliente 3">
+                    <img src="images/logos/cliente-4.webp" alt="Logo Cliente 4">
+                    <img src="images/logos/cliente-5.webp" alt="Logo Cliente 5">
+                    <img src="images/logos/cliente-6.webp" alt="Logo Cliente 6">
+                    <img src="images/logos/cliente-7.webp" alt="Logo Cliente 7">
+                </div>
+            </div>
+        </section>
+    
         <section id="contacto" class="full-screen hidden">
             <div class="content-wrapper">
                 <h2>Hablemos de tu Próximo Proyecto</h2>
                 <p>Llámanos, escríbenos o déjanos un mensaje. ¡Estamos listos para empezar!</p>
-                <form class="contact-form" action="TU_URL_DE_FORMSPREE_AQUI" method="POST">
+                <form class="contact-form" action="https://formspree.io/f/xpwyondj" method="POST">
                     <label for="nombre" class="visually-hidden">Tu Nombre</label>
                     <input type="text" name="nombre" id="nombre" placeholder="Tu Nombre" required>
                     
@@ -291,18 +440,17 @@
                     <textarea name="mensaje" id="mensaje" placeholder="Tu Mensaje" required></textarea>
                     
                     <button type="submit">Enviar Mensaje</button>
-
-                    <div class="map-container">
-                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3755.8117090345495!2d-103.46605972454327!3d19.720638981621295!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x842f8715a0a17155%3A0x69cdf4001d843177!2sGIYCSA!5e0!3m2!1ses-419!2smx!4v1760034374025!5m2!1ses-419!2smx" width="500" height="650" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                 </form>
-            </div>
+                  <div class="map-container">
+                    <iframe title="Ubicación de GIYC en Google Maps" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3755.8117090345495!2d-103.46605972454327!3d19.720638981621295!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x842f8715a0a17155%3A0x69cdf4001d843177!2sGIYCSA!5e0!3m2!1ses-419!2smx!4v1760034374025!5m2!1ses-419!2smx" width="500" height="650" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                </div>
         </section>
 
     </main>
 
     <footer class="site-footer">
         <div class="content-wrapper">
-            <p>&copy; 2025 GIYC SA DE CV. Todos los derechos reservados.</p>
+            <p>© 2025 GIYC SA DE CV. Todos los derechos reservados.</p>
             <div class="footer-contact">
                 <p>Matriz: Hidalgo 805 Centro, Cd. Guzmán, Jal. | Tel: **(341) 412.9265**</p>
                 <p>Email: <a href="mailto:giycsa@hotmail.com">giycsa@hotmail.com</a> | <a href="#">Aviso de Privacidad</a></p>
@@ -312,7 +460,7 @@
 
     <div id="project-modal" class="modal">
         <div class="modal-content">
-            <span class="close-button">&times;</span>
+            <span class="close-button">×</span>
             <div class="modal-body">
                 <h3 id="modal-title">Título del Proyecto</h3>
                 <p id="modal-description">Descripción detallada de la obra.</p>
@@ -321,6 +469,12 @@
             </div>
         </div>
     </div>
+    
+    <div id="image-lightbox" class="lightbox">
+        <span class="lightbox-close-button">×</span>
+        <img class="lightbox-content" id="lightbox-image">
+    </div>
+
 
     <script src="script.js"></script>
 </body>
