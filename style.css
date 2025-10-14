@@ -59,9 +59,8 @@ body {
     align-items: center;
 }
 
-/* REGLA NUEVA: Define el tamaño de la imagen del logo */
 .logo img {
-    height: 45px; /* Ajusta esta altura según el tamaño de tu logo */
+    height: 45px;
     width: auto;
 }
 
@@ -78,7 +77,6 @@ body {
     opacity: 1;
 }
 
-/* Estilo para el botón de hamburguesa (oculto por defecto en desktop) */
 .menu-toggle {
     display: none; 
     cursor: pointer;
@@ -93,13 +91,11 @@ body {
     min-height: 100vh;
     width: 100vw;
     display: flex;
-    /* --- CAMBIO: La sección ahora es un contenedor de columnas --- */
     flex-direction: column; 
     justify-content: center;
     align-items: center;
     text-align: center;
     position: relative;
-    /* --- CAMBIO: Eliminado el padding horizontal (20px) --- */
     padding: 100px 0; 
     transition: opacity 1.5s ease-out, transform 1s ease-out;
 }
@@ -116,7 +112,6 @@ body {
     pointer-events: auto;
 }
 
-/* Contenido dentro de las Secciones */
 .content-wrapper {
     max-width: 1000px;
     padding: 40px;
@@ -136,7 +131,6 @@ body {
     opacity: 0.8;
 }
 
-/* Botón de Llamada a la Acción (CTA) */
 .cta-button {
     display: inline-block;
     padding: 12px 30px;
@@ -154,7 +148,7 @@ body {
 }
 
 /* ------------------------------------------------------------------- */
-/* SECCIÓN INICIO (VIDEO) */
+/* SECCIÓN INICIO (SLIDESHOW) */
 /* ------------------------------------------------------------------- */
 #inicio {
     overflow: hidden; 
@@ -167,13 +161,6 @@ body {
     width: 100%;
     height: 100%;
     z-index: -1; 
-    
-    /* --- NUEVOS ESTILOS PARA LA IMAGEN/GIF --- */
-    /* Reemplaza la URL con la ruta a tu archivo GIF o imagen animada */
-    background-image: url('videos/intro.gif'); 
-    background-size: cover;      /* Asegura que la imagen cubra todo el espacio */
-    background-position: center; /* Centra la imagen */
-    background-repeat: no-repeat;/* Evita que la animación se repita si es un GIF */
 }
 
 .video-overlay {
@@ -183,11 +170,82 @@ body {
     width: 100%;
     height: 100%;
     background-color: rgba(28, 28, 30, 0.6); 
+    z-index: 1; /* Asegura que el overlay esté sobre las imágenes */
 }
 
+.slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    opacity: 0;
+    animation: crossfade-kenburns 27s infinite;
+}
+
+.slide:nth-child(2) {
+    animation-delay: 3s;
+}
+.slide:nth-child(3) {
+    animation-delay: 6s;
+}
+.slide:nth-child(4) {
+    animation-delay: 9s;
+}
+.slide:nth-child(5) {
+    animation-delay: 12s;
+}
+.slide:nth-child(6) {
+    animation-delay: 15s;
+}
+.slide:nth-child(7) {
+    animation-delay: 18s;
+}
+.slide:nth-child(8) {
+    animation-delay: 21s;
+}
+.slide:nth-child(9) {
+    animation-delay: 24s;
+}
+
+@keyframes crossfade-kenburns {
+    0% {
+        opacity: 0;
+        transform: scale(1.05);
+    }
+    3.3% {
+        opacity: 1;
+    }
+    30% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    33.3% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+
+#inicio h1 {
+    font-size: 4.2em;
+}
+#inicio p {
+    font-size: 1.3em;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+#inicio .content-wrapper {
+    position: relative;
+    z-index: 2;
+}
 
 /* ------------------------------------------------------------------- */
-/* SECCIÓN IDENTIDAD (COLABORADORES) - NUEVOS ESTILOS */
+/* SECCIÓN IDENTIDAD (COLABORADORES) */
 /* ------------------------------------------------------------------- */
 .team-scroller {
     width: 100%;
@@ -201,11 +259,11 @@ body {
     display: flex;
     gap: 25px;
     width: max-content;
-    animation: scrollAnimation 20s linear infinite; /* Reutilizamos la animación de scroll */
+    animation: scrollAnimation 20s linear infinite;
 }
 
 .team-card {
-    flex: 0 0 400px; /* Ancho fijo para cada tarjeta */
+    flex: 0 0 400px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -218,7 +276,7 @@ body {
 .team-card img {
     width: 180px;
     height: 180px;
-    border-radius: 50%; /* Foto circular */
+    border-radius: 50%;
     object-fit: cover;
     border: 3px solid var(--color-primary);
     margin-bottom: 20px;
@@ -247,29 +305,24 @@ body {
 
 
 /* ------------------------------------------------------------------- */
-/* SECCIÓN CARRUSEL DE PROYECTOS (NUEVA) */
+/* SECCIÓN HISTORIA (CARRUSEL PROYECTOS) */
 /* ------------------------------------------------------------------- */
-
-/* Contenedor principal de la sección. Su altura determina cuánto scroll vertical se necesita para mover todo el carrusel. */
 .carousel-section {
-    /* 400vh = el usuario debe scrollear 4 veces la altura de la pantalla para pasar toda la animación. */
     height: 400vh; 
-    padding: 0 !important; /* Quitamos padding para que ocupe toda la pantalla */
+    padding: 0 !important;
 }
 
-/* Este contenedor se vuelve 'pegajoso' en la parte superior de la pantalla. */
 .carousel-sticky-container {
     position: sticky;
     top: 0;
     height: 100vh;
     width: 100%;
-    overflow-x: hidden; /* Oculta el desbordamiento horizontal */
+    overflow-x: hidden;
     display: flex;
     align-items: center;
-    justify-content: space-between; /* MODIFICADO: para espaciar las flechas */
+    justify-content: space-between;
 }
 
-/* Un contenedor extra para alinear el texto introductorio y el carrusel. */
 .carousel-track-wrapper {
     position: relative;
     width: 100%;
@@ -277,10 +330,9 @@ body {
     align-items: center;
 }
 
-/* Estilos para el texto de introducción que aparece antes del carrusel. */
 .carousel-intro-text {
     position: absolute;
-    left: 5%; /* Posicionado a la izquierda */
+    left: 5%;
     max-width: 300px;
     text-align: left;
     color: var(--color-light);
@@ -296,20 +348,17 @@ body {
     opacity: 0.8;
 }
 
-/* El 'riel' que contiene todas las imágenes y se mueve horizontalmente. */
 .carousel-track {
     display: flex;
-    /* Ancho total es 7 proyectos * 60% del ancho de la pantalla cada uno. */
     width: calc(7 * 60vw); 
-    will-change: transform; /* Optimización para la animación de transformación */
-    padding-left: 100vw; /* Empuja el inicio del carrusel fuera de la pantalla a la derecha */
+    will-change: transform;
+    padding-left: 100vw;
 }
 
-/* Cada tarjeta individual del carrusel. */
 .carousel-item {
-    width: 60vw; /* Cada proyecto ocupa el 60% del ancho de la pantalla. */
-    height: 75vh; /* Ocupa el 75% de la altura de la pantalla. */
-    margin: 0 2vw; /* Espacio entre los proyectos */
+    width: 60vw;
+    height: 75vh;
+    margin: 0 2vw;
     flex-shrink: 0;
     position: relative;
     overflow: hidden;
@@ -320,7 +369,7 @@ body {
 }
 
 .carousel-item:hover {
-    transform: scale(1.03); /* Efecto sutil al pasar el ratón */
+    transform: scale(1.03);
 }
 
 .carousel-item img {
@@ -329,7 +378,6 @@ body {
     object-fit: cover;
 }
 
-/* El texto que va sobre cada imagen. */
 .item-caption {
     position: absolute;
     bottom: 0;
@@ -355,24 +403,20 @@ body {
 
 
 /* ------------------------------------------------------------------- */
-/* ESTILOS GENÉRICOS PARA CARRUSELES HORIZONTALES (NUEVO) */
+/* ESTILOS GENÉRICOS PARA CARRUSELES HORIZONTALES */
 /* ------------------------------------------------------------------- */
 .horizontal-carousel-wrapper {
     width: 100%;
-    overflow-x: auto; /* Habilita el scroll horizontal */
+    overflow-x: auto;
     padding-bottom: 20px;
     margin-top: 20px;
-    
-    /* --- CÓDIGO AÑADIDO PARA OCULTAR LA BARRA DE SCROLL --- */
-    scrollbar-width: none; /* Para Firefox */
-    -ms-overflow-style: none; /* Para Internet Explorer y Edge */
+    scrollbar-width: none;
+    -ms-overflow-style: none;
 }
 
-/* --- CÓDIGO AÑADIDO PARA OCULTAR LA BARRA DE SCROLL --- */
 .horizontal-carousel-wrapper::-webkit-scrollbar {
-    display: none; /* Para Chrome, Safari y Opera */
+    display: none;
 }
-
 
 .horizontal-carousel-inner {
     display: flex;
@@ -382,10 +426,10 @@ body {
 }
 
 /* ------------------------------------------------------------------- */
-/* NUEVOS ESTILOS PARA CARRUSEL DE PROYECTOS CON VIDEO */
+/* CARRUSEL DE PROYECTOS CON VIDEO */
 /* ------------------------------------------------------------------- */
 .project-video-card {
-    flex: 0 0 400px; /* Base de 350px de ancho, no se encoge, no crece */
+    flex: 0 0 400px;
     background-color: #2c2c2e;
     border-radius: 12px;
     overflow: hidden;
@@ -393,6 +437,35 @@ body {
     position: relative;
     border: 1px solid rgba(255, 255, 255, 0.1);
 }
+
+/* --- NUEVO: Icono de Play para videos en móvil --- */
+.project-video-card::after {
+    content: '▶️';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 50px;
+    color: white;
+    background-color: rgba(0, 0, 0, 0.5);
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    display: none; /* Oculto por defecto en desktop */
+    justify-content: center;
+    align-items: center;
+    line-height: 80px;
+    text-align: center;
+    pointer-events: none; /* Para que no intercepte el clic */
+    transition: opacity 0.3s ease;
+    padding-left: 5px; /* Ajuste visual del emoji */
+}
+
+/* Ocultar el icono de play cuando el video se está reproduciendo */
+.project-video-card.is-playing::after {
+    opacity: 0;
+}
+
 
 .project-video-card video {
     width: 100%;
@@ -424,10 +497,10 @@ body {
 
 
 /* ------------------------------------------------------------------- */
-/* NUEVOS ESTILOS PARA CARRUSEL DE MAQUINARIA */
+/* CARRUSEL DE MAQUINARIA */
 /* ------------------------------------------------------------------- */
 .machinery-card {
-    flex: 0 0 420px; /* Tarjetas un poco más angostas */
+    flex: 0 0 420px;
     background-color: #2c2c2e; 
     border-radius: 12px;
     overflow: hidden;
@@ -472,35 +545,31 @@ body {
 }
 
 .machinery-specs .spec-price {
-    grid-column: 1 / -1; /* Ocupa todo el ancho */
+    grid-column: 1 / -1;
     text-align: center;
     background: rgba(255, 140, 0, 0.1);
     padding: 8px;
     border-radius: 6px;
     margin-top: 10px;
     color: var(--color-primary);
-
-    /* --- LÍNEAS AÑADIDAS --- */
-    cursor: pointer; /* Cambia el cursor a una manita */
-    text-decoration: none; /* Quita el subrayado del enlace */
-    transition: background-color 0.3s; /* Añade una transición suave */
+    cursor: pointer;
+    text-decoration: none;
+    transition: background-color 0.3s;
 }
 
-/* --- NUEVA REGLA AÑADIDA --- */
 .machinery-specs .spec-price:hover {
-    background-color: rgba(255, 140, 0, 0.2); /* Oscurece un poco el fondo al pasar el cursor */
+    background-color: rgba(255, 140, 0, 0.2);
 }
 
-/* Rediseño del Checkbox */
 .machinery-header input[type="checkbox"] {
-    display: none; /* Ocultamos el checkbox original */
+    display: none;
 }
 
 .machinery-header .checkbox-label {
     width: 24px;
     height: 24px;
     border: 2px solid var(--color-primary);
-    border-radius: 50%; /* Círculo */
+    border-radius: 50%;
     cursor: pointer;
     position: relative;
     transition: background-color 0.2s;
@@ -511,7 +580,6 @@ body {
     border-color: var(--color-primary);
 }
 
-/* Estilo del "check" o palomita */
 .machinery-header input[type="checkbox"]:checked + .checkbox-label::after {
     content: '✔';
     position: absolute;
@@ -523,29 +591,25 @@ body {
 }
 
 /* ------------------------------------------------------------------- */
-/* SECCIÓN SERVICIOS (DISEÑO DINÁMICO CON IMAGEN DE FONDO) */
+/* SECCIÓN SERVICIOS */
 /* ------------------------------------------------------------------- */
 .service-card {
-    flex: 0 0 350px; /* Un poco más anchas */
-    height: 500px; /* Altura fija para consistencia */
+    flex: 0 0 350px;
+    height: 500px;
     border-radius: 12px;
-    overflow: hidden; /* Oculta lo que se salga de la tarjeta (importante para el zoom) */
-    position: relative; /* Necesario para posicionar el contenido y el overlay */
+    overflow: hidden;
+    position: relative;
     display: flex;
-    align-items: flex-end; /* Alinea el contenido en la parte inferior */
-    
-    /* Estilos de la imagen de fondo */
+    align-items: flex-end;
     background-size: cover;
     background-position: center;
-    
-    transition: transform 0.4s ease; /* Transición suave para el hover */
+    transition: transform 0.4s ease;
 }
 
 .service-card:hover {
-    transform: scale(1.08); /* Efecto de crecimiento sutil al pasar el cursor */
+    transform: scale(1.08);
 }
 
-/* Overlay oscuro para garantizar la legibilidad del texto */
 .service-card::before {
     content: '';
     position: absolute;
@@ -554,7 +618,7 @@ body {
     width: 100%;
     height: 100%;
     background: linear-gradient(to top, rgba(0, 0, 0, 0.9) 20%, rgba(0, 0, 0, 0) 60%);
-    z-index: 1; /* Se asegura que esté sobre la imagen pero debajo del texto */
+    z-index: 1;
     transition: background 0.4s ease;
 }
 
@@ -564,7 +628,7 @@ body {
 
 .service-card-content {
     padding: 25px;
-    position: relative; /* Asegura que el contenido esté sobre el overlay */
+    position: relative;
     z-index: 2;
     color: var(--color-light);
     transform: translateY(0);
@@ -572,7 +636,7 @@ body {
 }
 
 .service-card:hover .service-card-content {
-    transform: translateY(-10px); /* El texto sube un poco al pasar el cursor */
+    transform: translateY(-10px);
 }
 
 .service-card h3 {
@@ -589,11 +653,8 @@ body {
     margin: 0;
 }
 
+/* --- DEMÁS SECCIONES, PIE DE PÁGINA, MODALES, ETC. --- */
 
-
-/* ------------------------------------------------------------------- */
-/* PIE DE PÁGINA */
-/* ------------------------------------------------------------------- */
 .site-footer {
     text-align: right;
     padding: 30px 20px;
@@ -624,7 +685,6 @@ body {
     opacity: 0.8;
 }
 
-/* Contacto (Formulario) */
 .contact-form {
     display: flex;
     flex-direction: column;
@@ -655,138 +715,23 @@ body {
     transition: background-color 0.3s;
 }
 
-
-/* ------------------------------------------------------------------- */
-/* MEDIA QUERIES (RESPONSIVE DESIGN) */
-/* ------------------------------------------------------------------- */
-@media (max-width: 768px) {
-    
-    /* Adaptación de la Barra de Navegación */
-    .navbar {
-        padding: 15px 25px;
-    }
-
-    .navbar nav {
-        display: none; 
-        flex-direction: column;
-        position: absolute;
-        top: 60px; 
-        left: 0;
-        width: 100%;
-        background-color: rgba(28, 28, 30, 0.95);
-        border-top: 1px solid rgba(255, 255, 255, 0.1);
-        padding: 10px 0;
-    }
-    
-    .navbar nav.active {
-        display: flex; 
-    }
-
-    .navbar nav a {
-        margin: 0;
-        padding: 15px 25px;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-        text-align: left;
-    }
-    
-    .menu-toggle {
-        display: block;
-    }
-    
-    /* Adaptación del Contenido de las Secciones */
-    .full-screen {
-        padding: 80px 15px;
-        min-height: auto; 
-    }
-
-    .full-screen h1 {
-        font-size: 2.5em;
-    }
-    
-    .full-screen h2 {
-        font-size: 2em;
-    }
-
-    .full-screen p {
-        font-size: 1em;
-    }
-    
-    /* Ajuste de Identidad (MVV) */
-    .mvv-grid {
-        grid-template-columns: 1fr;
-    }
-    .mvv-card {
-        padding: 20px;
-    }
-
-    .value-tags {
-        justify-content: flex-start;
-    }
-
-    .gallery-proyectos {
-        grid-template-columns: 1fr; 
-    }
-
-    .project-card img {
-        width: 100%; 
-        min-height: 180px;
-    }
-
-    .machinery-grid {
-        grid-template-columns: 1fr;
-    }
-    
-    .service-list {
-        grid-template-columns: 1fr; 
-    }
-
-}
-
-/* ------------------------------------------------------------------- */
-/* MEDIA QUERIES (AJUSTES ADICIONALES) */
-/* ------------------------------------------------------------------- */
-@media (max-width: 768px) {
-    .gallery-proyectos {
-        grid-template-columns: 1fr; /* Una columna en móvil */
-    }
-}
-/* ------------------------------------------------------------------- */
-/* Estilos para el Mapa de Contacto */
-/* ------------------------------------------------------------------- */
-
-/* Contenedor del mapa para darle margen superior y limitar el ancho */
 .map-container {
-    margin-top: 50px; /* Separación del formulario */
+    margin-top: 50px;
     max-width: 800px;
     margin-left: auto;
     margin-right: auto;
     border-radius: 12px;
-    overflow: hidden; /* Oculta los bordes del iframe */
-    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5); /* Sombra para destacarlo */
+    overflow: hidden;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
 }
 
 .map-container iframe {
-    /* Asegura que el iframe ocupe todo el contenedor */
     width: 100%;
-    /* La altura se controla por el atributo 'height' del iframe en el HTML */
     display: block;
 }
 
-/* Ajuste Responsive para que el mapa se vea mejor en móvil */
-@media (max-width: 768px) {
-    .map-container {
-        margin-top: 30px;
-        /* Puedes ajustar la altura del iframe si quieres un 'minimapa' más pequeño en móvil */
-    }
-    .map-container iframe {
-        height: 300px; /* Una altura más compacta para dispositivos pequeños */
-    }
-}
-/* ------------------------------------------------------------------- */
-/* Estilos del Modal (Lightbox) - VERSIÓN MEJORADA */
-/* ------------------------------------------------------------------- */
 .modal {
-    visibility: hidden; /* <-- CAMBIADO */
+    visibility: hidden;
     position: fixed; 
     z-index: 2000;
     left: 0;
@@ -797,28 +742,26 @@ body {
     background-color: rgba(0,0,0,0.9);
     backdrop-filter: blur(5px);
     opacity: 0;
-    /* Añadimos 'visibility' a la transición */
-    transition: opacity 0.4s ease, visibility 0.4s ease; /* <-- MODIFICADO */
+    transition: opacity 0.4s ease, visibility 0.4s ease;
     pointer-events: none;
 }
 
 .modal.active {
     opacity: 1;
-    visibility: visible; /* <-- AÑADIDO */
+    visibility: visible;
     pointer-events: auto;
 }
 
 .modal-content {
     background-color: var(--color-dark);
     margin: 5% auto;
-    padding: 30px 40px; /* Aumentamos el padding para más aire */
+    padding: 30px 40px;
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 12px;
     width: 80%;
-    max-width: 950px; /* Hacemos el modal un poco más ancho */
+    max-width: 950px;
     position: relative;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
-    /* Animación de entrada mejorada */
     transform: translateY(-20px);
     transition: transform 0.4s ease;
 }
@@ -850,123 +793,74 @@ body {
     text-align: left;
 }
 
-/* --- Mejoras en el Texto --- */
 #modal-title {
-    font-size: 2.2em; /* Título más grande y llamativo */
+    font-size: 2.2em;
     font-weight: 600;
-    color: var(--color-primary); /* Usamos el color principal de tu web */
+    color: var(--color-primary);
     margin-bottom: 15px;
     line-height: 1.2;
 }
 
 #modal-description {
-    font-size: 1.1em; /* Descripción más grande */
-    line-height: 1.7; /* Mayor espaciado entre líneas para legibilidad */
+    font-size: 1.1em;
+    line-height: 1.7;
     opacity: 0.9;
-    margin-bottom: 30px; /* Más espacio antes de la galería */
+    margin-bottom: 30px;
 }
 
-
-/* --- Mejoras en la Galería de Imágenes --- */
 .modal-gallery {
     display: grid;
-    /* Columnas que se adaptan, con un tamaño mínimo más grande */
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); 
-    gap: 15px; /* Un poco más de separación */
+    gap: 15px;
     margin-top: 20px;
 }
 
 .modal-gallery img {
     width: 100%;
-    height: 200px; /* Imágenes notablemente más altas */
+    height: 200px;
     object-fit: cover;
-    border-radius: 8px; /* Bordes un poco más redondeados */
+    border-radius: 8px;
     opacity: 0.85;
     transition: opacity 0.3s, transform 0.3s;
-    cursor: zoom-in; /* AÑADIDO: Indica que la imagen es clickable */
+    cursor: zoom-in;
 }
 
 .modal-gallery img:hover {
     opacity: 1;
-    transform: scale(1.03); /* Efecto sutil al pasar el cursor */
+    transform: scale(1.03);
 }
 
-
-/* Animación de entrada (opcional, ya se usa transition) */
-@keyframes fadeIn {
-    from {opacity: 0}
-    to {opacity: 1}
-}
-
-/* Responsive para Móvil */
-@media (max-width: 768px) {
-    .modal-content {
-        width: 95%;
-        margin: 10% auto;
-        padding: 25px 20px;
-    }
-
-    #modal-title {
-        font-size: 1.8em;
-    }
-
-    #modal-description {
-        font-size: 1em;
-    }
-
-    .modal-gallery {
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    }
-
-    .modal-gallery img {
-        height: 150px;
-    }
-}
-/* ------------------------------------------------------------------- */
-/* NUEVOS ESTILOS PARA LA SECCIÓN DE CLIENTES (LOGO SCROLLER) */
-/* ------------------------------------------------------------------- */
 .logo-scroller {
     width: 100%;
     overflow: hidden;
     margin-top: 30px;
-    /* Máscara para crear un efecto de desvanecido en los bordes */
     -webkit-mask: linear-gradient(90deg, transparent, white 20%, white 80%, transparent);
     mask: linear-gradient(90deg, transparent, white 20%, white 80%, transparent);
 }
 
 .logo-scroller__inner {
     display: flex;
-    gap: 40px; /* Espacio entre logos */
+    gap: 40px;
     width: max-content;
-    /* Asignamos la animación */
     animation: scrollAnimation 30s linear infinite;
 }
 
 .logo-scroller__inner img {
-    height: 160px; /* Altura unificada para todos los logos */
-    width: auto; /* Ancho automático para mantener la proporción */
-    filter: grayscale(100%) opacity(0.7); /* Logos en blanco y negro para un look limpio */
+    height: 160px;
+    width: auto;
+    filter: grayscale(100%) opacity(0.7);
     transition: filter 0.3s;
 }
 
 .logo-scroller__inner img:hover {
-    filter: grayscale(0%) opacity(1); /* Logos a color al pasar el cursor */
+    filter: grayscale(0%) opacity(1);
 }
 
-/* Definición de la animación de scroll */
 @keyframes scrollAnimation {
-    from {
-        transform: translateX(0);
-    }
-    to {
-        /* Movemos el contenedor la mitad de su ancho total para crear el bucle */
-        transform: translateX(-50%);
-    }
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
 }
 
-/* ------------------------------------------------------------------- */
-/* NUEVOS ESTILOS: Flechas de Navegación del Carrusel de Historia */
-/* ------------------------------------------------------------------- */
 .carousel-arrow {
     background-color: rgba(28, 28, 30, 0.7);
     border: 1px solid rgba(255, 255, 255, 0.2);
@@ -984,7 +878,7 @@ body {
     line-height: 1;
     margin: 0 25px;
     transition: background-color 0.3s, transform 0.2s;
-    user-select: none; /* Evita que el texto del botón se seleccione */
+    user-select: none;
 }
 
 .carousel-arrow:hover {
@@ -993,33 +887,13 @@ body {
     transform: scale(1.1);
 }
 
-.carousel-arrow.prev {
-    padding-right: 4px; /* Ajuste visual del caracter */
-}
-.carousel-arrow.next {
-    padding-left: 4px; /* Ajuste visual del caracter */
-}
+.carousel-arrow.prev { padding-right: 4px; }
+.carousel-arrow.next { padding-left: 4px; }
 
-@media (max-width: 768px) {
-    .carousel-arrow {
-        width: 45px;
-        height: 45px;
-        font-size: 1.8em;
-        margin: 0 10px;
-    }
-    .carousel-intro-text {
-        display: none; /* Ocultar el texto en móvil para dar espacio */
-    }
-}
-
-
-/* ------------------------------------------------------------------- */
-/* NUEVOS ESTILOS: Lightbox para Imágenes */
-/* ------------------------------------------------------------------- */
 .lightbox {
     visibility: hidden;
     position: fixed;
-    z-index: 3000; /* Debe estar por encima del modal de proyectos */
+    z-index: 3000;
     left: 0;
     top: 0;
     width: 100%;
@@ -1041,7 +915,7 @@ body {
 .lightbox-content {
     max-width: 90%;
     max-height: 90%;
-    object-fit: contain; /* Mantiene la proporción de la imagen */
+    object-fit: contain;
     transform: scale(0.8);
     transition: transform 0.3s ease;
 }
@@ -1065,9 +939,6 @@ body {
     color: var(--color-primary);
 }
 
-/* ------------------------------------------------------------------- */
-/* NUEVOS ESTILOS: Custom Scrollbar con Puntos */
-/* ------------------------------------------------------------------- */
 .custom-scrollbar {
     display: flex;
     justify-content: center;
@@ -1086,7 +957,115 @@ body {
 }
 
 .scrollbar-dot.active {
-    width: 28px; /* Ancho de la barra activa */
+    width: 28px;
     background-color: var(--color-light);
-    border-radius: 10px; /* Bordes redondeados para la barra */
+    border-radius: 10px;
+}
+
+/* ------------------------------------------------------------------- */
+/* MEDIA QUERIES (RESPONSIVE DESIGN) */
+/* ------------------------------------------------------------------- */
+@media (max-width: 768px) {
+    
+    .navbar {
+        padding: 15px 25px;
+    }
+
+    .navbar nav {
+        display: none; 
+        flex-direction: column;
+        position: absolute;
+        top: 60px; 
+        left: 0;
+        width: 100%;
+        background-color: rgba(28, 28, 30, 0.95);
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        padding: 10px 0;
+    }
+    
+    .navbar nav.active { display: flex; }
+    .navbar nav a {
+        margin: 0;
+        padding: 15px 25px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        text-align: left;
+    }
+    
+    .menu-toggle { display: block; }
+    
+    .full-screen {
+        padding-top: 80px;
+        padding-bottom: 80px;
+        min-height: auto; 
+    }
+
+    .full-screen h1, .full-screen h2 { font-size: 2.5em; }
+    .full-screen p { font-size: 1em; }
+    
+    .map-container iframe { height: 300px; }
+
+    .modal-content {
+        width: 95%;
+        margin: 10% auto;
+        padding: 25px 20px;
+    }
+
+    #modal-title { font-size: 1.8em; }
+    #modal-description { font-size: 1em; }
+    .modal-gallery { grid-template-columns: 1fr; }
+    .modal-gallery img { height: 180px; }
+
+    /* --- CORRECCIONES PARA MÓVIL --- */
+
+    /* 1. Ajuste del tamaño de las tarjetas */
+    .project-video-card,
+    .machinery-card,
+    .service-card {
+        flex: 0 0 70vw; /* Las tarjetas ocupan el 70% del ancho */
+    }
+    .horizontal-carousel-inner {
+        /* Añadimos padding para que la primera y última tarjeta no queden pegadas a los bordes */
+        padding: 0 20px;
+    }
+
+    /* 2. Corrección de la sección de Historia */
+    #historia.carousel-section {
+        height: auto; /* Altura automática, ya no depende del scroll vertical */
+        min-height: 80vh; /* Damos una altura mínima para que luzca */
+    }
+    #historia .carousel-sticky-container {
+        position: static; /* Quitamos el posicionamiento "pegajoso" */
+        height: auto;
+        flex-direction: column;
+    }
+    #historia .carousel-track-wrapper {
+        overflow-x: auto; /* Hacemos que esta capa sea la que se desliza */
+        width: 100%;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+    }
+    #historia .carousel-track-wrapper::-webkit-scrollbar { display: none; }
+
+    #historia .carousel-track {
+        transform: none !important; /* Reseteamos la transformación de JS */
+        padding-left: 20px; /* Padding inicial */
+        width: max-content; /* El ancho se adapta al contenido */
+    }
+    #historia .carousel-item {
+        width: 75vw; /* Tamaño de tarjeta para móvil */
+        height: 60vh; /* Altura ajustada para móvil */
+        margin-right: 15px;
+    }
+    #historia .carousel-intro-text,
+    #historia .carousel-arrow {
+        display: none; /* Ocultamos el texto de intro y las flechas */
+    }
+     #historia .content-wrapper {
+        display: block; /* Hacemos visible el contenedor de texto de la sección */
+    }
+
+    /* 3. Mostrar el icono de Play en los videos */
+    .project-video-card::after {
+        display: flex;
+    }
 }
