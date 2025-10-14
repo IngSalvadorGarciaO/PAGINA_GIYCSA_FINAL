@@ -226,31 +226,53 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // -------------------------------------------------------------------
-    // 7. LÓGICA PARA REPRODUCIR VIDEOS AL PASAR EL CURSOR
-    // -------------------------------------------------------------------
-    const videoCards = document.querySelectorAll('.project-video-card');
+// -------------------------------------------------------------------
+// 7. LÓGICA PARA REPRODUCIR VIDEOS (COMPATIBLE CON MÓVIL Y DESKTOP)
+// -------------------------------------------------------------------
+const videoCards = document.querySelectorAll('.project-video-card');
+const isTouchDevice = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
 
-    videoCards.forEach(card => {
-        const video = card.querySelector('video');
-        let isVideoLoaded = false;
+videoCards.forEach(card => {
+    const video = card.querySelector('video');
+    let isVideoLoaded = false;
 
-        card.addEventListener('mouseenter', () => {
-            if (!isVideoLoaded) {
-                const sources = video.querySelectorAll('source');
-                sources.forEach(source => {
-                    source.src = source.dataset.src;
-                });
-                video.load();
-                isVideoLoaded = true;
+    const loadVideo = () => {
+        if (!isVideoLoaded) {
+            const sources = video.querySelectorAll('source');
+            sources.forEach(source => {
+                source.src = source.dataset.src;
+            });
+            video.load();
+            isVideoLoaded = true;
+        }
+    };
+
+    if (isTouchDevice) {
+        // --- Lógica para dispositivos táctiles (Móvil) ---
+        card.addEventListener('click', () => {
+            loadVideo();
+            if (video.paused) {
+                video.play();
+                card.classList.add('is-playing');
+            } else {
+                video.pause();
+                card.classList.remove('is-playing');
             }
+        });
+    } else {
+        // --- Lógica para dispositivos con mouse (Desktop) ---
+        card.addEventListener('mouseenter', () => {
+            loadVideo();
             video.play();
+            card.classList.add('is-playing');
         });
 
         card.addEventListener('mouseleave', () => {
             video.pause();
+            card.classList.remove('is-playing');
         });
-    });
+    }
+});
 
     // -------------------------------------------------------------------
     // 8. NUEVA LÓGICA: LIGHTBOX PARA IMÁGENES DE PROYECTOS
