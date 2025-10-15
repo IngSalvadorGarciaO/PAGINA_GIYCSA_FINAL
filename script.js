@@ -47,7 +47,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     behavior: 'smooth'
                 });
                 
-                if (window.innerWidth <= 768) {
+                if (window.innerWidth <= 768 && navMenu.classList.contains('active')) {
                     navMenu.classList.remove('active'); 
                 }
 
@@ -60,7 +60,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // -------------------------------------------------------------------
-    // 3. MENÚ HAMBURGUESA (Mobile Toggle)
+    // 3. MENÚ HAMBURGUESA
     // -------------------------------------------------------------------
     const menuToggle = document.querySelector('.menu-toggle');
     
@@ -90,11 +90,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
     
-    contactForm.addEventListener('submit', updateMachineryList);
-
-    machineryCheckboxes.forEach(checkbox => {
-        checkbox.addEventListener('change', updateMachineryList);
-    });
+    if(contactForm) contactForm.addEventListener('submit', updateMachineryList);
+    machineryCheckboxes.forEach(checkbox => checkbox.addEventListener('change', updateMachineryList));
 
     // -------------------------------------------------------------------
     // 5. LÓGICA DE MODAL PARA PROYECTOS
@@ -107,7 +104,7 @@ document.addEventListener('DOMContentLoaded', () => {
         },
         'callejones': {
             title: "Casa Callejones - Tamazula de Gordiano, Jal.",
-            description: "La Casa Callejones es una vivienda unifamiliar ubicada en el municipio de Tamazula de Gordiano, Jalisco, rodeada por vastas extensiones de tierras de cultivo. Su concepto se basa en la introspección, generando un espacio que se vive desde dentro hacia fuera. La arquitectura de la casa prioriza la privacidad y el contacto con la naturaleza a través de un gran patio central, el cual se convierte en el corazón del proyecto. Este patio además de aportar luz y ventilación natural a la vivienda también alberga un imponente árbol de mezquite, que se vuelve un habitante más de la casa, elemento simbólico de arraigo y fortaleza en la región.El diseño responde a la necesidad de integrar la vivienda con su contexto natural sin perder la comodidad y funcionalidad de un hogar contemporáneo. La materialidad y la paleta de colores utilizados refuerzan esta intención, con muros en tonos blancos que transmiten serenidad y generan una transición armoniosa con el paisaje horizontal. La jardinería ha sido trabajada con vegetación nativa, favoreciendo la sustentabilidad y reduciendo la necesidad de riego excesivo, lo que hace de la casa una propuesta ecológica y responsable con el medio ambiente",
+            description: "La Casa Callejones es una vivienda unifamiliar ubicada en el municipio de Tamazula de Gordiano, Jalisco, rodeada por vastas extenciones de tierras de cultivo. Su concepto se basa en la introspección, generando un espacio que se vive desde dentro hacia fuera. La arquitectura de la casa prioriza la privacidad y el contacto con la naturaleza a través de un gran patio central, el cual se convierte en el corazón del proyecto. Este patio además de aportar luz y ventilación natural a la vivienda también alberga un imponente árbol de mezquite, que se vuelve un habitante más de la casa, elemento simbólico de arraigo y fortaleza en la región.El diseño responde a la necesidad de integrar la vivienda con su contexto natural sin perder la comodidad y funcionalidad de un hogar contemporáneo. La materialidad y la paleta de colores utilizados refuerzan esta intención, con muros en tonos blancos que transmiten serenidad y generan una transición armoniosa con el paisaje horizontal. La jardinería ha sido trabajada con vegetación nativa, favoreciendo la sustentabilidad y reduciendo la necesidad de riego excesivo, lo que hace de la casa una propuesta ecológica y responsable con el medio ambiente",
             images: ["images/obras/callejones/callejones1.webp", "images/obras/callejones/callejones2.webp", "images/obras/callejones/callejones3.webp","images/obras/callejones/callejones4.webp", "images/obras/callejones/callejones5.webp", "images/obras/callejones/callejones6.webp"]
         },
         'depas-zapotiltic': {
@@ -176,16 +173,17 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // -------------------------------------------------------------------
-    // 6. LÓGICA DE ANIMACIÓN DEL CARRUSEL HORIZONTAL (REFACTORIZADA)
+    // 6. LÓGICA DE ANIMACIÓN DEL CARRUSEL DE HISTORIA (DESKTOP)
     // -------------------------------------------------------------------
     const carouselSection = document.querySelector('.carousel-section');
     const track = document.querySelector('.carousel-track');
     const prevButton = document.querySelector('.carousel-arrow.prev');
     const nextButton = document.querySelector('.carousel-arrow.next');
-    let currentProjectIndex = 0;
-    const numProjects = projectItems.length;
+    
+    if (window.innerWidth > 768 && carouselSection && track) {
+        let currentProjectIndex = 0;
+        const numProjects = projectItems.length;
 
-    if (carouselSection && track) {
         const updateCarousel = (progress) => {
             const maxTranslate = track.scrollWidth - window.innerWidth;
             const translateValue = progress * maxTranslate;
@@ -197,10 +195,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const progress = index / (numProjects - 1);
             const scrollTop = progress * scrollableDistance + carouselSection.offsetTop;
             
-            window.scrollTo({
-                top: scrollTop,
-                behavior: 'smooth'
-            });
+            window.scrollTo({ top: scrollTop, behavior: 'smooth' });
         };
 
         window.addEventListener('scroll', () => {
@@ -226,86 +221,79 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-// -------------------------------------------------------------------
-// 7. LÓGICA PARA REPRODUCIR VIDEOS (COMPATIBLE CON MÓVIL Y DESKTOP)
-// -------------------------------------------------------------------
-const videoCards = document.querySelectorAll('.project-video-card');
-const isTouchDevice = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
+    // -------------------------------------------------------------------
+    // 7. LÓGICA PARA REPRODUCIR VIDEOS (COMPATIBLE CON MÓVIL Y DESKTOP)
+    // -------------------------------------------------------------------
+    const videoCards = document.querySelectorAll('.project-video-card');
+    const isTouchDevice = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
 
-videoCards.forEach(card => {
-    const video = card.querySelector('video');
-    let isVideoLoaded = false;
+    videoCards.forEach(card => {
+        const video = card.querySelector('video');
+        let isVideoLoaded = false;
 
-    const loadVideo = () => {
-        if (!isVideoLoaded) {
-            const sources = video.querySelectorAll('source');
-            sources.forEach(source => {
-                source.src = source.dataset.src;
+        const loadVideo = () => {
+            if (!isVideoLoaded) {
+                const sources = video.querySelectorAll('source');
+                sources.forEach(source => {
+                    source.src = source.dataset.src;
+                });
+                video.load();
+                isVideoLoaded = true;
+            }
+        };
+
+        if (isTouchDevice) {
+            card.addEventListener('click', () => {
+                loadVideo();
+                if (video.paused) {
+                    video.play();
+                    card.classList.add('is-playing');
+                } else {
+                    video.pause();
+                    card.classList.remove('is-playing');
+                }
             });
-            video.load();
-            isVideoLoaded = true;
-        }
-    };
-
-    if (isTouchDevice) {
-        // --- Lógica para dispositivos táctiles (Móvil) ---
-        card.addEventListener('click', () => {
-            loadVideo();
-            if (video.paused) {
+        } else {
+            card.addEventListener('mouseenter', () => {
+                loadVideo();
                 video.play();
                 card.classList.add('is-playing');
-            } else {
+            });
+
+            card.addEventListener('mouseleave', () => {
                 video.pause();
                 card.classList.remove('is-playing');
-            }
-        });
-    } else {
-        // --- Lógica para dispositivos con mouse (Desktop) ---
-        card.addEventListener('mouseenter', () => {
-            loadVideo();
-            video.play();
-            card.classList.add('is-playing');
-        });
-
-        card.addEventListener('mouseleave', () => {
-            video.pause();
-            card.classList.remove('is-playing');
-        });
-    }
-});
+            });
+        }
+    });
 
     // -------------------------------------------------------------------
-    // 8. NUEVA LÓGICA: LIGHTBOX PARA IMÁGENES DE PROYECTOS
+    // 8. LÓGICA DE LIGHTBOX PARA IMÁGENES
     // -------------------------------------------------------------------
     const lightbox = document.getElementById('image-lightbox');
     const lightboxImage = document.getElementById('lightbox-image');
     const lightboxClose = document.querySelector('.lightbox-close-button');
 
-    modalGallery.addEventListener('click', (e) => {
-        if (e.target.tagName === 'IMG') {
-            lightboxImage.src = e.target.src;
-            lightbox.classList.add('visible');
-        }
-    });
+    if(modalGallery && lightbox) {
+        modalGallery.addEventListener('click', (e) => {
+            if (e.target.tagName === 'IMG') {
+                lightboxImage.src = e.target.src;
+                lightbox.classList.add('visible');
+            }
+        });
 
-    const closeLightbox = () => {
-        lightbox.classList.remove('visible');
-    };
+        const closeLightbox = () => lightbox.classList.remove('visible');
 
-    lightboxClose.addEventListener('click', closeLightbox);
-    lightbox.addEventListener('click', (e) => {
-        if (e.target !== lightboxImage) {
-            closeLightbox();
-        }
-    });
+        lightboxClose.addEventListener('click', closeLightbox);
+        lightbox.addEventListener('click', (e) => {
+            if (e.target !== lightboxImage) closeLightbox();
+        });
+    }
 
     // -------------------------------------------------------------------
-    // 9. NUEVA LÓGICA: SCROLLBARS PERSONALIZADOS CON PUNTOS
+    // 9. FUNCIÓN GENÉRICA PARA INICIALIZAR SCROLLBARS PERSONALIZADOS
     // -------------------------------------------------------------------
-    const allCarousels = document.querySelectorAll('.horizontal-carousel-wrapper');
-
-    allCarousels.forEach(carousel => {
-        const inner = carousel.querySelector('.horizontal-carousel-inner');
+    const initializeCustomScrollbar = (carousel, inner) => {
         const scrollbar = carousel.nextElementSibling;
         
         if (!inner || !scrollbar || !scrollbar.classList.contains('custom-scrollbar')) return;
@@ -315,7 +303,7 @@ videoCards.forEach(card => {
         if (itemCount === 0) return;
 
         let dots = [];
-        scrollbar.innerHTML = ''; // Limpiar por si acaso
+        scrollbar.innerHTML = '';
 
         for (let i = 0; i < itemCount; i++) {
             const dot = document.createElement('div');
@@ -323,18 +311,13 @@ videoCards.forEach(card => {
             dot.addEventListener('click', () => {
                 const itemWidth = items[0].offsetWidth;
                 const gap = parseInt(window.getComputedStyle(inner).gap) || 0;
-                carousel.scrollTo({
-                    left: i * (itemWidth + gap),
-                    behavior: 'smooth'
-                });
+                carousel.scrollTo({ left: i * (itemWidth + gap), behavior: 'smooth' });
             });
             scrollbar.appendChild(dot);
             dots.push(dot);
         }
 
-        if (dots.length > 0) {
-            dots[0].classList.add('active');
-        }
+        if (dots.length > 0) dots[0].classList.add('active');
         
         let timeout;
         carousel.addEventListener('scroll', () => {
@@ -347,10 +330,67 @@ videoCards.forEach(card => {
                 let activeIndex = Math.round(scrollLeft / (itemWidth + gap));
                 activeIndex = Math.max(0, Math.min(itemCount - 1, activeIndex));
 
-                dots.forEach((dot, index) => {
-                    dot.classList.toggle('active', index === activeIndex);
-                });
+                dots.forEach((dot, index) => dot.classList.toggle('active', index === activeIndex));
             }, 50); 
         });
+    };
+
+    // Aplicar a los carruseles existentes
+    document.querySelectorAll('.horizontal-carousel-wrapper').forEach(carousel => {
+        initializeCustomScrollbar(carousel, carousel.querySelector('.horizontal-carousel-inner'));
     });
+    
+    // -------------------------------------------------------------------
+    // 10. NUEVA LÓGICA: CARRUSEL DE EQUIPO CON SCROLLBAR Y AUTOSCROLL
+    // -------------------------------------------------------------------
+    const teamScroller = document.querySelector('.team-scroller');
+    if (teamScroller) {
+        const teamInner = teamScroller.querySelector('.team-scroller__inner');
+        initializeCustomScrollbar(teamScroller, teamInner); // Reutilizamos la función del scrollbar
+
+        let autoScrollInterval;
+
+        const startAutoScroll = () => {
+            // No hacer autoscroll en móviles
+            if (isTouchDevice) return;
+            
+            stopAutoScroll(); // Asegurarse de que no haya intervalos duplicados
+            autoScrollInterval = setInterval(() => {
+                const firstCard = teamInner.children[0];
+                const cardWidth = firstCard.offsetWidth;
+                const gap = parseInt(window.getComputedStyle(teamInner).gap);
+
+                // Si llegó al final, vuelve al inicio
+                if (teamScroller.scrollLeft >= teamScroller.scrollWidth - teamScroller.clientWidth - 1) {
+                    teamScroller.scrollTo({ left: 0, behavior: 'smooth' });
+                } else {
+                    teamScroller.scrollBy({ left: cardWidth + gap, behavior: 'smooth' });
+                }
+            }, 3000); // Cambia de tarjeta cada 3 segundos
+        };
+
+        const stopAutoScroll = () => {
+            clearInterval(autoScrollInterval);
+        };
+        
+        let scrollTimeout;
+        teamScroller.addEventListener('scroll', () => {
+            // Si el usuario hace scroll, detener el autoscroll y reiniciarlo después de 5 segundos de inactividad
+            stopAutoScroll();
+            clearTimeout(scrollTimeout);
+            scrollTimeout = setTimeout(startAutoScroll, 5000);
+        });
+
+        // Iniciar el autoscroll cuando la sección es visible
+        const teamObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    startAutoScroll();
+                } else {
+                    stopAutoScroll();
+                }
+            });
+        });
+        teamObserver.observe(document.getElementById('identidad'));
+    }
 });
