@@ -3,16 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="description" content="GIYC ofrece servicios de construcción, edificación, infraestructura y renta de maquinaria pesada en el Sur de Jalisco. Proyectos de calidad y confianza desde 2015.">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
     <title>Constructora y Renta de Maquinaria en Cd. Guzmán | GIYC</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
     <link rel="icon" type="image/png" href="logo-giycsa.png">
-
     <link rel="icon" type="image/png" sizes="192x192" href="logo-giycsa.png" purpose="maskable">
-
     <link rel="apple-touch-icon" href="logo-giycsa.png">
-
 </head>
 <body>
 
@@ -36,7 +34,7 @@
 
     <main>
         <section id="inicio" class="full-screen active">
-            <div class="video-background">
+            <div class="video-background" id="slideshow-container">
                 <div class="slide" style="background-image: url('images/slideshow/slide1.webp');"></div>
                 <div class="slide" style="background-image: url('images/slideshow/slide2.webp');"></div>
                 <div class="slide" style="background-image: url('images/slideshow/slide3.webp');"></div>
@@ -54,6 +52,7 @@
                 <a href="#historia" class="cta-button">Ver Proyectos Destacados</a>
             </div>
         </section>
+
         <section id="identidad" class="full-screen hidden">
             <div class="content-wrapper">
                 <h2>Nuestra Identidad y Equipo</h2>
@@ -85,7 +84,6 @@
                         <p class="title">Jefe de Maquinaria</p>
                         <p class="description">"La potencia y precisión que impulsa nuestras obras."</p>
                     </div>
-
                     <div class="team-card">
                         <img src="images/team/member-5.webp" alt="Foto de [Lic Melina]">
                         <h3>Lic. Laura Melina Zuñiga</h3>
@@ -183,6 +181,7 @@
                 </div>
                  <button class="carousel-arrow next" aria-label="Siguiente proyecto">›</button>
             </div>
+            <div class="custom-scrollbar mobile-only"></div>
         </section>
 
         <section id="proyectos" class="full-screen hidden">
@@ -439,9 +438,26 @@
                     
                     <button type="submit">Enviar Mensaje</button>
                 </form>
+                <div class="social-media-links">
+                <p>O encuéntranos en nuestras redes:</p>
+                <div class="icons-wrapper">
+                    <a href="https://www.facebook.com/giycsamx" target="_blank" aria-label="Visita nuestro Facebook">
+                        <i class="fa-brands fa-facebook-f"></i>
+                    </a>
+                    <a href="https://www.instagram.com/giycsa/" target="_blank" aria-label="Visita nuestro Instagram">
+                        <i class="fa-brands fa-instagram"></i>
+                    </a>
+                    <a href="https://api.whatsapp.com/send?phone=5213410000000" target="_blank" aria-label="Envíanos un WhatsApp">
+                        <i class="fa-brands fa-whatsapp"></i>
+                    </a>
+                    <a href="https://linkedin.com/tu-perfil" target="_blank" aria-label="Visita nuestro LinkedIn">
+                        <i class="fa-brands fa-linkedin-in"></i>
+                    </a>
+                </div>
                   <div class="map-container">
                     <iframe title="Ubicación de GIYC en Google Maps" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3755.8117090345495!2d-103.46605972454327!3d19.720638981621295!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x842f8715a0a17155%3A0x69cdf4001d843177!2sGIYCSA!5e0!3m2!1ses-419!2smx!4v1760034374025!5m2!1ses-419!2smx" width="500" height="650" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                 </div>
+            </div>
         </section>
 
     </main>
@@ -463,7 +479,7 @@
                 <h3 id="modal-title">Título del Proyecto</h3>
                 <p id="modal-description">Descripción detallada de la obra.</p>
                 <div id="modal-image-gallery" class="modal-gallery">
-                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -472,7 +488,6 @@
         <span class="lightbox-close-button">×</span>
         <img class="lightbox-content" id="lightbox-image">
     </div>
-
 
     <script src="script.js"></script>
 </body>
