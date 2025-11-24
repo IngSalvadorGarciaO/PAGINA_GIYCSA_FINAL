@@ -1,8 +1,9 @@
 document.addEventListener('DOMContentLoaded', () => {
     // -------------------------------------------------------------------
-    // 1. ANIMACIÓN DE SECCIONES (Intersection Observer)
+    // 1. ANIMACIÓN DE SECCIONES + OPTIMIZACIÓN DE RENDIMIENTO
     // -------------------------------------------------------------------
     const sections = document.querySelectorAll('.full-screen:not(#inicio), .carousel-section');
+    const introSection = document.getElementById('inicio');
     
     const observerOptions = {
         root: null, 
@@ -15,6 +16,15 @@ document.addEventListener('DOMContentLoaded', () => {
             if (entry.isIntersecting) {
                 entry.target.classList.remove('hidden');
                 entry.target.classList.add('active');
+                
+                // PERFORMANCE: Si no estamos en inicio, ocultar el slideshow para ahorrar GPU/Batería
+                if (introSection) {
+                    if (entry.target.id !== 'inicio') {
+                        introSection.style.visibility = 'hidden';
+                    } else {
+                        introSection.style.visibility = 'visible';
+                    }
+                }
             } else {
                 entry.target.classList.add('hidden');
                 entry.target.classList.remove('active');
@@ -27,6 +37,8 @@ document.addEventListener('DOMContentLoaded', () => {
     sections.forEach(section => {
         observer.observe(section);
     });
+    // Observar también el inicio para la lógica de visibilidad
+    if(introSection) observer.observe(introSection);
     
     // -------------------------------------------------------------------
     // 2. NAVEGACIÓN SUAVE (Smooth Scroll)
@@ -42,8 +54,13 @@ document.addEventListener('DOMContentLoaded', () => {
             const targetElement = document.querySelector(targetId);
 
             if (targetElement) {
+                // Cálculo para compensar el header fijo
+                const headerOffset = 80; 
+                const elementPosition = targetElement.getBoundingClientRect().top;
+                const offsetPosition = elementPosition + window.scrollY - headerOffset;
+
                 window.scrollTo({
-                    top: targetElement.offsetTop,
+                    top: offsetPosition,
                     behavior: 'smooth'
                 });
                 
@@ -94,27 +111,27 @@ document.addEventListener('DOMContentLoaded', () => {
     machineryCheckboxes.forEach(checkbox => checkbox.addEventListener('change', updateMachineryList));
 
     // -------------------------------------------------------------------
-    // 5. LÓGICA DE MODAL PARA PROYECTOS
+    // 5. LÓGICA DE MODAL PARA PROYECTOS (CON PROTECCIÓN DE SWIPE)
     // -------------------------------------------------------------------
     const projectData = {
         'lomas-del-barro': {
             title: "Casa Lomas del Barro - Ciudad Guzman, Jal.",
-            description: "Enclavada en la montaña Oriente, con vista hacia el valle, el Nevado de Colima y la laguna de Zapotlán, la Casa Loma de Barro ubicada en Ciudad Guzmán, Jalisco, nace de la necesidad de crear una residencia única en su tipo, que se adaptara a la topografía pronunciada del terreno. Es por ello por lo que surge el concepto de arquitectura blanca y panorámica, cuyo objetivo principal es fusionarse con el contexto natural que la rodea. Este concepto se materializa a través de grandes jardines y terrazas que enmarcan vistas tanto hacia la ciudad como hacia el entorno natural del valle de Zapotlán. El terreno presenta un desnivel pronunciado de aproximadamente 15 metros, lo que condicionó la estrategia de diseño. Para responder a esta topografía, la casa se desarrolla en cuatro niveles principales, adaptándose al relieve natural mediante plataformas escalonadas. Además, cuenta con tres niveles adicionales de terrazas abiertas llenas de vegetación, contribuyendo a la sensación de serenidad y paz dentro del espacio habitacional. El acceso se encuentra en la parte más alta del terreno, desde donde se inicia el recorrido descendente a través de los distintos niveles que conforman la residencia.",
+            description: "Enclavada en la montaña Oriente, con vista hacia el valle...",
             images: ["images/obras/lomas/lomas1.webp", "images/obras/lomas/lomas2.webp", "images/obras/lomas/lomas3.webp", "images/obras/lomas/lomas4.webp", "images/obras/lomas/lomas5.webp", "images/obras/lomas/lomas6.webp"]
         },
         'callejones': {
             title: "Casa Callejones - Tamazula de Gordiano, Jal.",
-            description: "La Casa Callejones es una vivienda unifamiliar ubicada en el municipio de Tamazula de Gordiano, Jalisco, rodeada por vastas extenciones de tierras de cultivo. Su concepto se basa en la introspección, generando un espacio que se vive desde dentro hacia fuera. La arquitectura de la casa prioriza la privacidad y el contacto con la naturaleza a través de un gran patio central, el cual se convierte en el corazón del proyecto. Este patio además de aportar luz y ventilación natural a la vivienda también alberga un imponente árbol de mezquite, que se vuelve un habitante más de la casa, elemento simbólico de arraigo y fortaleza en la región.El diseño responde a la necesidad de integrar la vivienda con su contexto natural sin perder la comodidad y funcionalidad de un hogar contemporáneo. La materialidad y la paleta de colores utilizados refuerzan esta intención, con muros en tonos blancos que transmiten serenidad y generan una transición armoniosa con el paisaje horizontal. La jardinería ha sido trabajada con vegetación nativa, favoreciendo la sustentabilidad y reduciendo la necesidad de riego excesivo, lo que hace de la casa una propuesta ecológica y responsable con el medio ambiente",
+            description: "La Casa Callejones es una vivienda unifamiliar ubicada...",
             images: ["images/obras/callejones/callejones1.webp", "images/obras/callejones/callejones2.webp", "images/obras/callejones/callejones3.webp","images/obras/callejones/callejones4.webp", "images/obras/callejones/callejones5.webp", "images/obras/callejones/callejones6.webp"]
         },
         'depas-zapotiltic': {
             title: "Edificio de Departamentos - Zapotiltic, Jal.",
-            description: "Este exclusivo desarrollo en Zapotiltic, Jalisco, es más que un conjunto de departamentos: es un oasis de calma pensado para su bienestar. Hemos fusionado un diseño moderno y minimalista con la calidez que su hogar merece. Los tonos neutros y las líneas limpias de la fachada crean un impacto visual elegante, proporcionando un telón de fondo perfecto para la vida que desea construir.La verdadera magia está en el interior y la forma en que se conecta con el entorno. Gracias a los amplios ventanales de piso a techo y los generosos balcones acristalados, la luz natural inunda cada rincón, mientras que las vistas al verde paisaje se convierten en parte de su decoración diaria. Aquí, el ajetreo se queda fuera; solo entra la tranquilidad. Descubra la comodidad de acabados de primer nivel y la paz de vivir en un entorno que celebra la arquitectura de vanguardia, sin renunciar a la esencia acogedora de la vida en Jalisco. Su nuevo capítulo comienza aquí, en un hogar donde el diseño se encuentra con la naturaleza para ofrecerle una vida de estilo, luz y absoluta paz.",
+            description: "Este exclusivo desarrollo en Zapotiltic, Jalisco...",
             images: ["images/obras/zapo/zapo8.webp", "images/obras/zapo/zapo2.webp", "images/obras/zapo/zapo3.webp", "images/obras/zapo/zapo4.webp", "images/obras/zapo/zapo5.webp", "images/obras/zapo/zapo6.webp", "images/obras/zapo/zapo7.webp"]
         },
         'carretera-sanmiguel': {
             title: "Carretera San Miguel - El Platanar, Tuxcacuesco, Jal.",
-            description: "Trazado, demolicion, incorporacion, construccion de puente y construccion de carpeta asfaltica en carretera estatel San Miguel - El Platanar, en el municipio de Tuxcacuesco, Jalisco.",
+            description: "Trazado, demolicion, incorporacion, construccion de puente...",
             images: ["images/obras/carretera-sanmiguel/sanmiguel1.webp", "images/obras/carretera-sanmiguel/sanmiguel2.webp", "images/obras/carretera-sanmiguel/sanmiguel3.webp", "images/obras/carretera-sanmiguel/sanmiguel4.webp"]
         },
         'casa-maple': {
@@ -124,12 +141,12 @@ document.addEventListener('DOMContentLoaded', () => {
         },
         'casa-lazaro': {
             title: "Casa Lazaro Cárdenas, Ciudad Guzman, Jal.",
-            description: "Casa ubicada en la calle Lazaro Cárdenas del Rio, en el centro de Ciudad Guzman, Jalisco.",
+            description: "Casa ubicada en la calle Lazaro Cárdenas del Rio...",
             images: []
         },
         'nucleo-medico': {
             title: "Nucleo Medico HZ, Ciudad Guzman, Jal.",
-            description: "Nucleo Medico de especialidades ubicado en el centro de Ciudad Guzman, Jalisco.",
+            description: "Nucleo Medico de especialidades ubicado en el centro...",
             images: []
         }
     };
@@ -159,11 +176,31 @@ document.addEventListener('DOMContentLoaded', () => {
         modal.classList.add('active');
     };
 
+    // LÓGICA ANTI-CLIC ACCIDENTAL (SWIPE PROTECTION)
+    let isDragging = false;
+    let startX = 0;
+
     projectItems.forEach(item => {
+        // Detectar inicio de toque
+        item.addEventListener('touchstart', (e) => {
+            isDragging = false;
+            startX = e.touches[0].clientX;
+        }, {passive: true});
+
+        // Detectar movimiento
+        item.addEventListener('touchmove', (e) => {
+            if (Math.abs(e.touches[0].clientX - startX) > 10) {
+                isDragging = true; // Si movió más de 10px, es un swipe, no un click
+            }
+        }, {passive: true});
+
         item.addEventListener('click', (e) => {
             e.preventDefault();
-            const projectId = item.getAttribute('data-project-id');
-            showModal(projectId);
+            // Solo abrir si no estaba arrastrando
+            if (!isDragging) {
+                const projectId = item.getAttribute('data-project-id');
+                showModal(projectId);
+            }
         });
     });
 
@@ -222,40 +259,67 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // -------------------------------------------------------------------
-    // 7. LÓGICA PARA REPRODUCIR VIDEOS (COMPATIBLE CON MÓVIL Y DESKTOP)
+    // 7. LÓGICA DE VIDEOS MEJORADA (INTERSECTION OBSERVER)
     // -------------------------------------------------------------------
     const videoCards = document.querySelectorAll('.project-video-card');
-    const isTouchDevice = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
+    
+    const videoObserverOptions = {
+        root: null,
+        rootMargin: '0px',
+        threshold: 0.6 // El video debe estar al 60% visible para reproducirse
+    };
 
-    videoCards.forEach(card => {
-        const video = card.querySelector('video');
-        let isVideoLoaded = false;
-
-        const loadVideo = () => {
-            if (!isVideoLoaded) {
+    const videoObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            const card = entry.target;
+            const video = card.querySelector('video');
+            
+            // Carga diferida (Lazy Loading) real
+            if (!video.dataset.loaded) {
                 const sources = video.querySelectorAll('source');
                 sources.forEach(source => {
-                    source.src = source.dataset.src;
+                    if(source.dataset.src) source.src = source.dataset.src;
                 });
                 video.load();
-                isVideoLoaded = true;
+                video.dataset.loaded = "true";
             }
-        };
 
-        if (isTouchDevice) {
-            card.addEventListener('click', () => {
-                loadVideo();
-                if (video.paused) {
-                    video.play();
-                    card.classList.add('is-playing');
-                } else {
-                    video.pause();
-                    card.classList.remove('is-playing');
+            if (entry.isIntersecting) {
+                // Play seguro (sin sonido)
+                const playPromise = video.play();
+                if (playPromise !== undefined) {
+                    playPromise.then(_ => {
+                        card.classList.add('is-playing');
+                    }).catch(error => {
+                        // Auto-play fue prevenido (ej. modo ahorro de datos)
+                        console.log("Autoplay prevenido por navegador");
+                    });
                 }
-            });
+            } else {
+                video.pause();
+                card.classList.remove('is-playing');
+            }
+        });
+    }, videoObserverOptions);
+
+    videoCards.forEach(card => {
+        const isTouch = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
+        
+        if (isTouch) {
+            // MÓVIL: Usar Observer para Autoplay al hacer scroll
+            videoObserver.observe(card);
+            // Ocultar icono de play vía variable CSS
+            card.style.setProperty('--play-icon-display', 'none'); 
         } else {
+            // DESKTOP: Mantener hover
+            const video = card.querySelector('video');
             card.addEventListener('mouseenter', () => {
-                loadVideo();
+                if (!video.dataset.loaded) {
+                    const sources = video.querySelectorAll('source');
+                    sources.forEach(s => s.src = s.dataset.src);
+                    video.load();
+                    video.dataset.loaded = "true";
+                }
                 video.play();
                 card.classList.add('is-playing');
             });
@@ -308,6 +372,8 @@ document.addEventListener('DOMContentLoaded', () => {
         for (let i = 0; i < itemCount; i++) {
             const dot = document.createElement('div');
             dot.classList.add('scrollbar-dot');
+            
+            // Mejorar UX del dot click
             dot.addEventListener('click', () => {
                 const itemWidth = items[0].offsetWidth;
                 const gap = parseInt(window.getComputedStyle(inner).gap) || 0;
@@ -341,32 +407,32 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     
     // -------------------------------------------------------------------
-    // 10. NUEVA LÓGICA: CARRUSEL DE EQUIPO CON SCROLLBAR Y AUTOSCROLL
+    // 10. CARRUSEL DE EQUIPO CON SCROLLBAR Y AUTOSCROLL
     // -------------------------------------------------------------------
     const teamScroller = document.querySelector('.team-scroller');
     if (teamScroller) {
         const teamInner = teamScroller.querySelector('.team-scroller__inner');
-        initializeCustomScrollbar(teamScroller, teamInner); // Reutilizamos la función del scrollbar
+        initializeCustomScrollbar(teamScroller, teamInner);
 
         let autoScrollInterval;
+        const isTouchDevice = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
 
         const startAutoScroll = () => {
-            // No hacer autoscroll en móviles
+            // No hacer autoscroll en móviles, es molesto para la lectura táctil
             if (isTouchDevice) return;
             
-            stopAutoScroll(); // Asegurarse de que no haya intervalos duplicados
+            stopAutoScroll(); 
             autoScrollInterval = setInterval(() => {
                 const firstCard = teamInner.children[0];
                 const cardWidth = firstCard.offsetWidth;
                 const gap = parseInt(window.getComputedStyle(teamInner).gap);
 
-                // Si llegó al final, vuelve al inicio
                 if (teamScroller.scrollLeft >= teamScroller.scrollWidth - teamScroller.clientWidth - 1) {
                     teamScroller.scrollTo({ left: 0, behavior: 'smooth' });
                 } else {
                     teamScroller.scrollBy({ left: cardWidth + gap, behavior: 'smooth' });
                 }
-            }, 3000); // Cambia de tarjeta cada 3 segundos
+            }, 3000); 
         };
 
         const stopAutoScroll = () => {
@@ -375,13 +441,14 @@ document.addEventListener('DOMContentLoaded', () => {
         
         let scrollTimeout;
         teamScroller.addEventListener('scroll', () => {
-            // Si el usuario hace scroll, detener el autoscroll y reiniciarlo después de 5 segundos de inactividad
             stopAutoScroll();
             clearTimeout(scrollTimeout);
-            scrollTimeout = setTimeout(startAutoScroll, 5000);
+            // Reiniciar autoscroll solo en desktop
+            if (!isTouchDevice) {
+                scrollTimeout = setTimeout(startAutoScroll, 5000);
+            }
         });
 
-        // Iniciar el autoscroll cuando la sección es visible
         const teamObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
