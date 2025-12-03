@@ -867,7 +867,6 @@ body {
         background-color: rgba(28, 28, 30, 0.95);
         border-top: 1px solid rgba(255, 255, 255, 0.1);
         padding: 10px 0;
-        /* SCROLL EN MENÚ LANDSCAPE */
         max-height: 80vh;
         overflow-y: auto;
     }
@@ -875,7 +874,6 @@ body {
     .navbar nav a { margin: 0; padding: 15px 25px; border-bottom: 1px solid rgba(255, 255, 255, 0.05); text-align: left; }
     .menu-toggle { display: block; }
     
-    /* SCROLLBAR MÁS GRANDE PARA DEDOS */
     .scrollbar-dot { width: 12px; height: 12px; margin: 0 4px; }
     
     .full-screen { padding-top: 80px; padding-bottom: 80px; min-height: auto; }
@@ -889,7 +887,7 @@ body {
     .modal-gallery { grid-template-columns: 1fr; }
     .modal-gallery img { height: 180px; }
 
-    /* FORZAR VISIBILIDAD EN TARJETAS DE SERVICIO (MOBILE FIX) */
+    /* Fix para tarjetas de servicio */
     .service-card .service-card-content {
         transform: translateY(0) !important;
         background: linear-gradient(to top, rgba(0, 0, 0, 0.9) 40%, transparent);
@@ -898,8 +896,10 @@ body {
         background: linear-gradient(to top, rgba(0, 0, 0, 0.8) 30%, transparent) !important;
     }
 
-    /* --- CORRECCIONES PARA MÓVIL --- */
+    /* Ajustes generales móvil */
     #inicio h1 { font-size: clamp(2.8em, 10vw, 3.5em); line-height: 1.2; }
+    
+    /* Configuración de scroll snap */
     .team-scroller,
     .horizontal-carousel-wrapper,
     #historia .carousel-track-wrapper {
@@ -912,20 +912,79 @@ body {
     #historia .carousel-item {
         scroll-snap-align: center;
     }
+    
+    /* Espaciado lateral en carruseles */
     .team-scroller__inner,
     .horizontal-carousel-inner,
     #historia .carousel-track {
-        padding: 0 15vw;
+        padding: 0 5vw; /* Ajustado para que se vea más centrado */
     }
+    
+    /* Ancho de tarjetas */
     .team-card { flex: 0 0 75vw; }
-    .project-video-card, .machinery-card, .service-card { flex: 0 0 70vw; }
-    #historia .carousel-section { height: auto; min-height: auto; padding-bottom: 40px;}
-    #historia .carousel-sticky-container { position: static; height: auto; flex-direction: column; }
-    #historia .carousel-track-wrapper { overflow-x: auto; width: 100%; }
-    #historia .carousel-track { transform: none !important; width: max-content; }
-    #historia .carousel-item { width: 75vw; height: 60vh; margin-right: 15px; }
-    #historia .carousel-intro-text { display: block; position: static; text-align: center; max-width: 100%; padding: 0 20px 30px 20px; }
+    
+    /* CORRECCIÓN #1: Arreglo del scroll fantasma en Historia */
+    /* Quitamos el espacio en el selector y forzamos display block */
+    #historia.carousel-section { 
+        height: auto !important; 
+        min-height: auto !important; 
+        padding-bottom: 60px !important;
+        display: block;
+    }
+    #historia .carousel-sticky-container { 
+        position: relative; 
+        height: auto !important; 
+        top: 0;
+        display: block;
+        flex-direction: column; 
+    }
+    #historia .carousel-track-wrapper { 
+        overflow-x: auto; 
+        width: 100%; 
+    }
+    #historia .carousel-track { 
+        transform: none !important; 
+        width: max-content; 
+        padding-left: 5vw; /* Alineación inicial */
+    }
+    #historia .carousel-item { 
+        width: 80vw; 
+        height: 50vh; /* Altura más manejable */
+        margin-right: 15px; 
+    }
+    #historia .carousel-intro-text { 
+        display: block; 
+        position: static; 
+        text-align: center; 
+        max-width: 100%; 
+        padding: 0 20px 30px 20px; 
+    }
     #historia .carousel-arrow { display: none; }
-    /* Icono Play oculto en móvil porque hay autoplay */
+
+    /* CORRECCIÓN #2: Altura de videos */
+    .project-video-card video {
+        height: 300px; /* Reducido de 550px a 300px */
+    }
+    .project-video-card {
+        flex: 0 0 85vw; /* Tarjeta un poco más ancha */
+        max-width: 400px;
+    }
     .project-video-card::after { display: var(--play-icon-display, flex); }
+
+    /* CORRECCIÓN #3: Tarjetas de Maquinaria */
+    .machinery-card {
+        flex: 0 0 85vw;
+        max-width: 350px;
+        height: auto; /* Permitir que crezca */
+        min-height: auto;
+    }
+    .machinery-card img {
+        height: 180px; /* Reducir imagen para dar espacio al texto */
+    }
+    .machinery-specs {
+        font-size: 0.85em; /* Texto un poco más pequeño */
+    }
+
+    /* Servicios */
+    .service-card { flex: 0 0 70vw; }
 }
