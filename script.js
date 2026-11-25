@@ -1,463 +1,491 @@
-document.addEventListener('DOMContentLoaded', () => {
-    // -------------------------------------------------------------------
-    // 1. ANIMACIÓN DE SECCIONES + OPTIMIZACIÓN DE RENDIMIENTO
-    // -------------------------------------------------------------------
-    const sections = document.querySelectorAll('.full-screen:not(#inicio), .carousel-section');
-    const introSection = document.getElementById('inicio');
-    
-    const observerOptions = {
-        root: null, 
-        rootMargin: '0px',
-        threshold: 0.2
-    };
+/* =========================================================================
+   GIYC SA de CV · Interacciones
+   - Carruseles: flechas y arrastre con mouse, puntos, teclado y deslizamiento táctil
+   - Menú móvil, animaciones de entrada, videos, modal de obras y formulario
+   El sitio sigue funcionando si este script no carga (progresivo).
+   ========================================================================= */
+(function () {
+    'use strict';
 
-    const sectionObserverCallback = (entries, observer) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.remove('hidden');
-                entry.target.classList.add('active');
-                
-                // PERFORMANCE: Si no estamos en inicio, ocultar el slideshow para ahorrar GPU/Batería
-                if (introSection) {
-                    if (entry.target.id !== 'inicio') {
-                        introSection.style.visibility = 'hidden';
-                    } else {
-                        introSection.style.visibility = 'visible';
-                    }
-                }
-            } else {
-                entry.target.classList.add('hidden');
-                entry.target.classList.remove('active');
-            }
-        });
-    };
+    const $ = (sel, root = document) => root.querySelector(sel);
+    const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
 
-    const observer = new IntersectionObserver(sectionObserverCallback, observerOptions);
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const mouseDevice = window.matchMedia('(hover: hover) and (pointer: fine)');
 
-    sections.forEach(section => {
-        observer.observe(section);
-    });
-    // Observar también el inicio para la lógica de visibilidad
-    if(introSection) observer.observe(introSection);
-    
-    // -------------------------------------------------------------------
-    // 2. NAVEGACIÓN SUAVE (Smooth Scroll)
-    // -------------------------------------------------------------------
-    const navMenu = document.querySelector('.navbar nav'); 
-    const navLinks = document.querySelectorAll('.navbar nav a, .cta-button, .spec-price'); 
-
-    navLinks.forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-            e.preventDefault();
-            
-            const targetId = this.getAttribute('href');
-            const targetElement = document.querySelector(targetId);
-
-            if (targetElement) {
-                // Cálculo para compensar el header fijo
-                const headerOffset = 80; 
-                const elementPosition = targetElement.getBoundingClientRect().top;
-                const offsetPosition = elementPosition + window.scrollY - headerOffset;
-
-                window.scrollTo({
-                    top: offsetPosition,
-                    behavior: 'smooth'
-                });
-                
-                if (window.innerWidth <= 768 && navMenu.classList.contains('active')) {
-                    navMenu.classList.remove('active'); 
-                }
-
-                if (targetElement.classList.contains('hidden')) {
-                     targetElement.classList.remove('hidden');
-                     targetElement.classList.add('active');
-                }
-            }
-        });
-    });
-
-    // -------------------------------------------------------------------
-    // 3. MENÚ HAMBURGUESA
-    // -------------------------------------------------------------------
-    const menuToggle = document.querySelector('.menu-toggle');
-    
-    menuToggle.addEventListener('click', () => {
-        navMenu.classList.toggle('active');
-    });
-
-    // -------------------------------------------------------------------
-    // 4. LÓGICA DE COTIZACIÓN DE MAQUINARIA
-    // -------------------------------------------------------------------
-    const contactForm = document.querySelector('.contact-form');
-    const machineryCheckboxes = document.querySelectorAll('.machinery-card input[type="checkbox"]');
-    const hiddenInput = document.getElementById('maquinaria_solicitada');
-
-    const updateMachineryList = () => {
-        const selectedMachines = [];
-        machineryCheckboxes.forEach(checkbox => {
-            if (checkbox.checked) {
-                selectedMachines.push(checkbox.value);
-            }
-        });
-        
-        if (selectedMachines.length > 0) {
-            hiddenInput.value = "Maquinaria solicitada: " + selectedMachines.join(', ');
-        } else {
-            hiddenInput.value = "No se seleccionó maquinaria.";
-        }
-    };
-    
-    if(contactForm) contactForm.addEventListener('submit', updateMachineryList);
-    machineryCheckboxes.forEach(checkbox => checkbox.addEventListener('change', updateMachineryList));
-
-    // -------------------------------------------------------------------
-    // 5. LÓGICA DE MODAL PARA PROYECTOS (CON PROTECCIÓN DE SWIPE)
-    // -------------------------------------------------------------------
-    const projectData = {
+    // Datos de las obras: se muestran en el modal al dar clic en una tarjeta
+    const PROYECTOS = {
         'lomas-del-barro': {
-            title: "Casa Lomas del Barro - Ciudad Guzman, Jal.",
-            description: "Enclavada en la montaña Oriente, con vista hacia el valle...",
-            images: ["images/obras/lomas/lomas1.webp", "images/obras/lomas/lomas2.webp", "images/obras/lomas/lomas3.webp", "images/obras/lomas/lomas4.webp", "images/obras/lomas/lomas5.webp", "images/obras/lomas/lomas6.webp"]
+            nombre: 'Casa Lomas del Barro',
+            categoria: 'Edificación y vivienda',
+            ubicacion: 'Ciudad Guzmán, Jal.',
+            descripcion: 'Casa enclavada en la montaña Oriente, con vista hacia el valle.',
+            imagenes: [1, 2, 3, 4, 5, 6].map(n => `images/obras/lomas/lomas${n}.webp`),
         },
         'callejones': {
-            title: "Casa Callejones - Tamazula de Gordiano, Jal.",
-            description: "La Casa Callejones es una vivienda unifamiliar ubicada...",
-            images: ["images/obras/callejones/callejones1.webp", "images/obras/callejones/callejones2.webp", "images/obras/callejones/callejones3.webp","images/obras/callejones/callejones4.webp", "images/obras/callejones/callejones5.webp", "images/obras/callejones/callejones6.webp"]
+            nombre: 'Casa Callejones',
+            categoria: 'Edificación y vivienda',
+            ubicacion: 'Tamazula de Gordiano, Jal.',
+            descripcion: 'Vivienda unifamiliar ubicada en Tamazula de Gordiano, Jalisco.',
+            imagenes: [1, 2, 3, 4, 5, 6].map(n => `images/obras/callejones/callejones${n}.webp`),
         },
         'depas-zapotiltic': {
-            title: "Edificio de Departamentos - Zapotiltic, Jal.",
-            description: "Este exclusivo desarrollo en Zapotiltic, Jalisco...",
-            images: ["images/obras/zapo/zapo8.webp", "images/obras/zapo/zapo2.webp", "images/obras/zapo/zapo3.webp", "images/obras/zapo/zapo4.webp", "images/obras/zapo/zapo5.webp", "images/obras/zapo/zapo6.webp", "images/obras/zapo/zapo7.webp"]
+            nombre: 'Edificio de Departamentos',
+            categoria: 'Edificación y vivienda',
+            ubicacion: 'Zapotiltic, Jal.',
+            descripcion: 'Exclusivo desarrollo de departamentos en Zapotiltic, Jalisco.',
+            imagenes: [1, 2, 3, 4, 5, 6, 7, 8].map(n => `images/obras/zapo/zapo${n}.webp`),
         },
         'carretera-sanmiguel': {
-            title: "Carretera San Miguel - El Platanar, Tuxcacuesco, Jal.",
-            description: "Trazado, demolicion, incorporacion, construccion de puente...",
-            images: ["images/obras/carretera-sanmiguel/sanmiguel1.webp", "images/obras/carretera-sanmiguel/sanmiguel2.webp", "images/obras/carretera-sanmiguel/sanmiguel3.webp", "images/obras/carretera-sanmiguel/sanmiguel4.webp"]
+            nombre: 'Carretera San Miguel – El Platanar',
+            categoria: 'Obra pública',
+            ubicacion: 'Tuxcacuesco, Jal.',
+            descripcion: 'Trabajos de trazado, demolición, incorporación y construcción de puente.',
+            imagenes: [1, 2, 3, 4].map(n => `images/obras/carretera-sanmiguel/sanmiguel${n}.webp`),
         },
         'casa-maple': {
-            title: "Casa Maple, Ciudad Guzman, Jal.",
-            description: "Casa en residencial Maple, en Ciudad Guzman, Jalisco.",
-            images: []
+            nombre: 'Casa Maple',
+            categoria: 'Edificación y vivienda',
+            ubicacion: 'Ciudad Guzmán, Jal.',
+            descripcion: 'Casa en el residencial Maple, en Ciudad Guzmán, Jalisco.',
+            imagenes: ['images/mosaico/maple.webp'],
         },
         'casa-lazaro': {
-            title: "Casa Lazaro Cárdenas, Ciudad Guzman, Jal.",
-            description: "Casa ubicada en la calle Lazaro Cárdenas del Rio...",
-            images: []
+            nombre: 'Casa Lázaro Cárdenas',
+            categoria: 'Edificación y vivienda',
+            ubicacion: 'Ciudad Guzmán, Jal.',
+            descripcion: 'Casa ubicada en la calle Lázaro Cárdenas del Río, Ciudad Guzmán, Jalisco.',
+            imagenes: ['images/mosaico/fachada-lazaro.webp'],
         },
         'nucleo-medico': {
-            title: "Nucleo Medico HZ, Ciudad Guzman, Jal.",
-            description: "Nucleo Medico de especialidades ubicado en el centro...",
-            images: []
-        }
+            nombre: 'Núcleo Médico HZ',
+            categoria: 'Edificación y vivienda',
+            ubicacion: 'Ciudad Guzmán, Jal.',
+            descripcion: 'Núcleo médico de especialidades ubicado en el centro de Ciudad Guzmán.',
+            imagenes: ['images/mosaico/fachada-nucleo.webp'],
+        },
+        'nave-industrial': {
+            nombre: 'Naves industriales y obra civil',
+            categoria: 'Edificación y vivienda',
+            ubicacion: 'Jalisco',
+            descripcion: 'Construcción de naves industriales, estructuras metálicas y obra civil para empresas.',
+            imagenes: ['images/cv/estructura-nave.webp'],
+        },
+        'plataformas-agricolas': {
+            nombre: 'Plataformas agrícolas',
+            categoria: 'Agroindustria',
+            ubicacion: 'Jalisco',
+            descripcion: 'Nivelación, compactación y construcción de plataformas para invernaderos, malla sombra y áreas de empaque.',
+            imagenes: ['images/cv/plataforma-excavadora.webp', 'images/cv/plataforma-camion.webp', 'images/cv/excavadora-cielo.webp'],
+        },
+        'nave-empaque': {
+            nombre: 'Nave de empaque agroindustrial',
+            categoria: 'Agroindustria',
+            ubicacion: 'Jalisco',
+            descripcion: 'Construcción de nave industrial para empaque agrícola, con cimentaciones y adecuación de áreas de empaque.',
+            imagenes: ['images/cv/nave-interior.webp', 'images/cv/empaque-piso.webp'],
+        },
+        'carreteras-pavimentacion': {
+            nombre: 'Carreteras y pavimentación',
+            categoria: 'Obra pública',
+            ubicacion: 'Jalisco',
+            descripcion: 'Construcción, rehabilitación y pavimentación de caminos, vialidades urbanas, drenaje y obras complementarias.',
+            imagenes: ['images/cv/carretera-amplia.webp', 'images/cv/carretera.webp', 'images/cv/pavimentacion.webp'],
+        },
+        'equipamiento-salud-educativo': {
+            nombre: 'Centros de salud y planteles educativos',
+            categoria: 'Infraestructura y equipamiento',
+            ubicacion: 'Jalisco',
+            descripcion: 'Construcción de centros de salud y planteles educativos, y rehabilitación de instalaciones públicas.',
+            imagenes: ['images/cv/centro-salud.webp', 'images/cv/equipamiento-educativo.webp'],
+        },
     };
 
-    const projectItems = document.querySelectorAll('.carousel-item'); 
-    const modal = document.getElementById('project-modal');
-    const closeButton = document.querySelector('.close-button');
-    const modalTitle = document.getElementById('modal-title');
-    const modalDescription = document.getElementById('modal-description');
-    const modalGallery = document.getElementById('modal-image-gallery');
-    
-    const showModal = (projectId) => {
-        const data = projectData[projectId];
-        if (!data) return; 
+    document.addEventListener('DOMContentLoaded', init);
 
-        modalTitle.textContent = data.title;
-        modalDescription.textContent = data.description;
-        
-        modalGallery.innerHTML = '';
-        data.images.forEach(imageSrc => {
-            const img = document.createElement('img');
-            img.src = imageSrc;
-            img.alt = data.title + ' foto';
-            modalGallery.appendChild(img);
-        });
+    function init() {
+        setYear();
+        initHeader();
+        initMenu();
+        initReveal();
+        initFilters();
+        initProjects();
+        initVideos();
+        initMachinery();
+        initForm();
+    }
 
-        modal.classList.add('active');
-    };
+    /* ------------------------------------------------------------------
+       Año del pie de página
+       ------------------------------------------------------------------ */
+    function setYear() {
+        const el = $('#anio');
+        if (el) el.textContent = new Date().getFullYear();
+    }
 
-    // LÓGICA ANTI-CLIC ACCIDENTAL (SWIPE PROTECTION)
-    let isDragging = false;
-    let startX = 0;
+    /* ------------------------------------------------------------------
+       Encabezado: sombra al hacer scroll
+       ------------------------------------------------------------------ */
+    function initHeader() {
+        const header = $('.site-header');
+        if (!header) return;
+        const onScroll = () => header.classList.toggle('is-scrolled', window.scrollY > 8);
+        onScroll();
+        window.addEventListener('scroll', onScroll, { passive: true });
+    }
 
-    projectItems.forEach(item => {
-        // Detectar inicio de toque
-        item.addEventListener('touchstart', (e) => {
-            isDragging = false;
-            startX = e.touches[0].clientX;
-        }, {passive: true});
+    /* ------------------------------------------------------------------
+       Menú móvil (pantalla completa)
+       ------------------------------------------------------------------ */
+    function initMenu() {
+        const toggle = $('.nav-toggle');
+        const nav = $('#menu-principal');
+        if (!toggle || !nav) return;
 
-        // Detectar movimiento
-        item.addEventListener('touchmove', (e) => {
-            if (Math.abs(e.touches[0].clientX - startX) > 10) {
-                isDragging = true; // Si movió más de 10px, es un swipe, no un click
-            }
-        }, {passive: true});
-
-        item.addEventListener('click', (e) => {
-            e.preventDefault();
-            // Solo abrir si no estaba arrastrando
-            if (!isDragging) {
-                const projectId = item.getAttribute('data-project-id');
-                showModal(projectId);
-            }
-        });
-    });
-
-    closeButton.addEventListener('click', () => modal.classList.remove('active'));
-    window.addEventListener('click', (event) => {
-        if (event.target === modal) modal.classList.remove('active');
-    });
-
-    // -------------------------------------------------------------------
-    // 6. LÓGICA DE ANIMACIÓN DEL CARRUSEL DE HISTORIA (DESKTOP)
-    // -------------------------------------------------------------------
-    const carouselSection = document.querySelector('.carousel-section');
-    const track = document.querySelector('.carousel-track');
-    const prevButton = document.querySelector('.carousel-arrow.prev');
-    const nextButton = document.querySelector('.carousel-arrow.next');
-    
-    if (window.innerWidth > 768 && carouselSection && track) {
-        let currentProjectIndex = 0;
-        const numProjects = projectItems.length;
-
-        const updateCarousel = (progress) => {
-            const maxTranslate = track.scrollWidth - window.innerWidth;
-            const translateValue = progress * maxTranslate;
-            track.style.transform = `translateX(-${translateValue}px)`;
-        };
-        
-        const scrollToProject = (index) => {
-            const scrollableDistance = carouselSection.scrollHeight - window.innerHeight;
-            const progress = index / (numProjects - 1);
-            const scrollTop = progress * scrollableDistance + carouselSection.offsetTop;
-            
-            window.scrollTo({ top: scrollTop, behavior: 'smooth' });
+        const setOpen = (open) => {
+            document.body.classList.toggle('nav-open', open);
+            toggle.setAttribute('aria-expanded', String(open));
         };
 
-        window.addEventListener('scroll', () => {
-            const { top, height } = carouselSection.getBoundingClientRect();
-            if (top > window.innerHeight || top + height < 0) return;
+        toggle.addEventListener('click', () => {
+            const open = !document.body.classList.contains('nav-open');
+            setOpen(open);
+            if (open) nav.querySelector('a').focus();
+        });
 
-            const scrollableDistance = height - window.innerHeight;
-            let progress = Math.max(0, Math.min(1, -top / scrollableDistance));
-            
-            currentProjectIndex = Math.round(progress * (numProjects - 1));
-            
-            requestAnimationFrame(() => updateCarousel(progress));
+        // Al tocar un enlace, el menú se cierra y la página baja a la sección
+        nav.addEventListener('click', (e) => {
+            if (e.target.closest('a')) setOpen(false);
         });
-        
-        prevButton.addEventListener('click', () => {
-            let targetIndex = Math.max(0, currentProjectIndex - 1);
-            scrollToProject(targetIndex);
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && document.body.classList.contains('nav-open')) {
+                setOpen(false);
+                toggle.focus();
+            }
         });
-        
-        nextButton.addEventListener('click', () => {
-            let targetIndex = Math.min(numProjects - 1, currentProjectIndex + 1);
-            scrollToProject(targetIndex);
+
+        // Si se gira el celular o se amplía la ventana, se cierra el menú
+        window.matchMedia('(min-width: 1100px)').addEventListener('change', (e) => {
+            if (e.matches) setOpen(false);
         });
     }
 
-    // -------------------------------------------------------------------
-    // 7. LÓGICA DE VIDEOS MEJORADA (INTERSECTION OBSERVER)
-    // -------------------------------------------------------------------
-    const videoCards = document.querySelectorAll('.project-video-card');
-    
-    const videoObserverOptions = {
-        root: null,
-        rootMargin: '0px',
-        threshold: 0.6 // El video debe estar al 60% visible para reproducirse
-    };
-
-    const videoObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            const card = entry.target;
-            const video = card.querySelector('video');
-            
-            // Carga diferida (Lazy Loading) real
-            if (!video.dataset.loaded) {
-                const sources = video.querySelectorAll('source');
-                sources.forEach(source => {
-                    if(source.dataset.src) source.src = source.dataset.src;
-                });
-                video.load();
-                video.dataset.loaded = "true";
-            }
-
-            if (entry.isIntersecting) {
-                // Play seguro (sin sonido)
-                const playPromise = video.play();
-                if (playPromise !== undefined) {
-                    playPromise.then(_ => {
-                        card.classList.add('is-playing');
-                    }).catch(error => {
-                        // Auto-play fue prevenido (ej. modo ahorro de datos)
-                        console.log("Autoplay prevenido por navegador");
-                    });
-                }
-            } else {
-                video.pause();
-                card.classList.remove('is-playing');
-            }
-        });
-    }, videoObserverOptions);
-
-    videoCards.forEach(card => {
-        const isTouch = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
-        
-        if (isTouch) {
-            // MÓVIL: Usar Observer para Autoplay al hacer scroll
-            videoObserver.observe(card);
-            // Ocultar icono de play vía variable CSS
-            card.style.setProperty('--play-icon-display', 'none'); 
-        } else {
-            // DESKTOP: Mantener hover
-            const video = card.querySelector('video');
-            card.addEventListener('mouseenter', () => {
-                if (!video.dataset.loaded) {
-                    const sources = video.querySelectorAll('source');
-                    sources.forEach(s => s.src = s.dataset.src);
-                    video.load();
-                    video.dataset.loaded = "true";
-                }
-                video.play();
-                card.classList.add('is-playing');
-            });
-
-            card.addEventListener('mouseleave', () => {
-                video.pause();
-                card.classList.remove('is-playing');
-            });
+    /* ------------------------------------------------------------------
+       Animación de entrada (una sola vez, sin ocultar contenido)
+       ------------------------------------------------------------------ */
+    function initReveal() {
+        const items = $$('.reveal');
+        if (!('IntersectionObserver' in window) || reduceMotion.matches) {
+            items.forEach(el => el.classList.add('is-visible'));
+            return;
         }
-    });
-
-    // -------------------------------------------------------------------
-    // 8. LÓGICA DE LIGHTBOX PARA IMÁGENES
-    // -------------------------------------------------------------------
-    const lightbox = document.getElementById('image-lightbox');
-    const lightboxImage = document.getElementById('lightbox-image');
-    const lightboxClose = document.querySelector('.lightbox-close-button');
-
-    if(modalGallery && lightbox) {
-        modalGallery.addEventListener('click', (e) => {
-            if (e.target.tagName === 'IMG') {
-                lightboxImage.src = e.target.src;
-                lightbox.classList.add('visible');
-            }
-        });
-
-        const closeLightbox = () => lightbox.classList.remove('visible');
-
-        lightboxClose.addEventListener('click', closeLightbox);
-        lightbox.addEventListener('click', (e) => {
-            if (e.target !== lightboxImage) closeLightbox();
-        });
-    }
-
-    // -------------------------------------------------------------------
-    // 9. FUNCIÓN GENÉRICA PARA INICIALIZAR SCROLLBARS PERSONALIZADOS
-    // -------------------------------------------------------------------
-    const initializeCustomScrollbar = (carousel, inner) => {
-        const scrollbar = carousel.nextElementSibling;
-        
-        if (!inner || !scrollbar || !scrollbar.classList.contains('custom-scrollbar')) return;
-
-        const items = inner.children;
-        const itemCount = items.length;
-        if (itemCount === 0) return;
-
-        let dots = [];
-        scrollbar.innerHTML = '';
-
-        for (let i = 0; i < itemCount; i++) {
-            const dot = document.createElement('div');
-            dot.classList.add('scrollbar-dot');
-            
-            // Mejorar UX del dot click
-            dot.addEventListener('click', () => {
-                const itemWidth = items[0].offsetWidth;
-                const gap = parseInt(window.getComputedStyle(inner).gap) || 0;
-                carousel.scrollTo({ left: i * (itemWidth + gap), behavior: 'smooth' });
-            });
-            scrollbar.appendChild(dot);
-            dots.push(dot);
-        }
-
-        if (dots.length > 0) dots[0].classList.add('active');
-        
-        let timeout;
-        carousel.addEventListener('scroll', () => {
-            clearTimeout(timeout);
-            timeout = setTimeout(() => {
-                const itemWidth = items[0].offsetWidth;
-                const gap = parseInt(window.getComputedStyle(inner).gap) || 0;
-                const scrollLeft = carousel.scrollLeft;
-
-                let activeIndex = Math.round(scrollLeft / (itemWidth + gap));
-                activeIndex = Math.max(0, Math.min(itemCount - 1, activeIndex));
-
-                dots.forEach((dot, index) => dot.classList.toggle('active', index === activeIndex));
-            }, 50); 
-        });
-    };
-
-    // Aplicar a los carruseles existentes
-    document.querySelectorAll('.horizontal-carousel-wrapper').forEach(carousel => {
-        initializeCustomScrollbar(carousel, carousel.querySelector('.horizontal-carousel-inner'));
-    });
-    
-    // -------------------------------------------------------------------
-    // 10. CARRUSEL DE EQUIPO CON SCROLLBAR Y AUTOSCROLL
-    // -------------------------------------------------------------------
-    const teamScroller = document.querySelector('.team-scroller');
-    if (teamScroller) {
-        const teamInner = teamScroller.querySelector('.team-scroller__inner');
-        initializeCustomScrollbar(teamScroller, teamInner);
-
-        let autoScrollInterval;
-        const isTouchDevice = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
-
-        const startAutoScroll = () => {
-            // No hacer autoscroll en móviles, es molesto para la lectura táctil
-            if (isTouchDevice) return;
-            
-            stopAutoScroll(); 
-            autoScrollInterval = setInterval(() => {
-                const firstCard = teamInner.children[0];
-                const cardWidth = firstCard.offsetWidth;
-                const gap = parseInt(window.getComputedStyle(teamInner).gap);
-
-                if (teamScroller.scrollLeft >= teamScroller.scrollWidth - teamScroller.clientWidth - 1) {
-                    teamScroller.scrollTo({ left: 0, behavior: 'smooth' });
-                } else {
-                    teamScroller.scrollBy({ left: cardWidth + gap, behavior: 'smooth' });
-                }
-            }, 3000); 
-        };
-
-        const stopAutoScroll = () => {
-            clearInterval(autoScrollInterval);
-        };
-        
-        let scrollTimeout;
-        teamScroller.addEventListener('scroll', () => {
-            stopAutoScroll();
-            clearTimeout(scrollTimeout);
-            // Reiniciar autoscroll solo en desktop
-            if (!isTouchDevice) {
-                scrollTimeout = setTimeout(startAutoScroll, 5000);
-            }
-        });
-
-        const teamObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
+        const io = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
                 if (entry.isIntersecting) {
-                    startAutoScroll();
-                } else {
-                    stopAutoScroll();
+                    entry.target.classList.add('is-visible');
+                    io.unobserve(entry.target);
                 }
             });
-        });
-        teamObserver.observe(document.getElementById('identidad'));
+        }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+        items.forEach(el => io.observe(el));
     }
-});
+
+    /* ------------------------------------------------------------------
+       Filtros de obras: Todas, Agroindustria, Obra pública, etc.
+       En celular se muestran 6 obras y un botón para ver todas
+       ------------------------------------------------------------------ */
+    function initFilters() {
+        const bar = $('.filters');
+        const list = $('#obras-lista');
+        if (!bar || !list) return;
+
+        const items = $$('li[data-category]', list);
+        const buttons = $$('.chip', bar);
+        const status = $('#filtro-estado');
+        const more = $('#obras-mas');
+        const LIMITE = 6;
+        let expandida = false;
+        const visible = (filtro, li) => filtro === 'todas' || li.dataset.category === filtro;
+
+        buttons.forEach((b) => {
+            const n = items.filter(li => visible(b.dataset.filter, li)).length;
+            b.querySelector('.chip__count').textContent = n;
+            if (n === 0) b.hidden = true;
+        });
+
+        const actualizar = (anunciar) => {
+            const cumplen = items.filter(li => !li.hidden);
+            // Solo afecta a celular (CSS): las obras de más se ocultan
+            cumplen.forEach((li, i) => li.classList.toggle('is-extra', !expandida && i >= LIMITE));
+            if (more) {
+                more.hidden = cumplen.length <= LIMITE;
+                more.setAttribute('aria-expanded', String(expandida));
+                more.textContent = expandida ? 'Ver menos obras' : `Ver todas las obras (${cumplen.length})`;
+            }
+            if (anunciar && status) {
+                status.textContent = `Mostrando ${cumplen.length} ${cumplen.length === 1 ? 'obra' : 'obras'}.`;
+            }
+        };
+
+        bar.addEventListener('click', (e) => {
+            const btn = e.target.closest('.chip');
+            if (!btn) return;
+            buttons.forEach(b => b.setAttribute('aria-pressed', String(b === btn)));
+            items.forEach(li => { li.hidden = !visible(btn.dataset.filter, li); });
+            expandida = false;
+            actualizar(true);
+        });
+
+        if (more) {
+            more.addEventListener('click', () => {
+                expandida = !expandida;
+                actualizar(false);
+                if (!expandida) $('.obras-head').scrollIntoView({ block: 'start' });
+            });
+        }
+
+        actualizar(false);
+    }
+
+    /* ------------------------------------------------------------------
+       Modal de obras y foto ampliada (con flechas y teclado)
+       ------------------------------------------------------------------ */
+    function initProjects() {
+        const modal = $('#project-modal');
+        const lightbox = $('#lightbox');
+        const lightboxImg = $('#lightbox-image');
+        const gallery = $('#modal-image-gallery');
+        if (!modal || !gallery) return;
+
+        let lastTrigger = null;
+        let fotos = [];  // fotos del proyecto abierto
+        let indice = 0;  // foto que se ve en la lightbox
+
+        const openProject = (id, trigger) => {
+            const data = PROYECTOS[id];
+            if (!data) return;
+            lastTrigger = trigger;
+            $('#modal-meta').textContent = `${data.categoria} · ${data.ubicacion}`;
+            $('#modal-title').textContent = data.nombre;
+            $('#modal-description').textContent = data.descripcion;
+            const total = data.imagenes.length;
+            $('#modal-count').textContent = `${total} ${total === 1 ? 'foto' : 'fotos'}`;
+            fotos = data.imagenes.map((src, i) => ({ src, alt: `${data.nombre}, foto ${i + 1}` }));
+            gallery.innerHTML = '';
+            fotos.forEach((foto) => {
+                const img = document.createElement('img');
+                img.src = foto.src;
+                img.alt = foto.alt;
+                img.loading = 'lazy';
+                img.decoding = 'async';
+                gallery.appendChild(img);
+            });
+            modal.showModal();
+            modal.querySelector('.dialog__close').focus();
+        };
+
+        $$('.obra-card').forEach((btn) => {
+            btn.addEventListener('click', () => openProject(btn.dataset.projectId, btn));
+        });
+
+        // Clic en el fondo cierra el diálogo
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) modal.close();
+        });
+
+        // El botón "cotizar similar" cierra el diálogo y la página baja al formulario
+        const similar = modal.querySelector('[data-cotizar-similar]');
+        if (similar) similar.addEventListener('click', () => modal.close());
+
+        modal.addEventListener('close', () => {
+            if (lastTrigger) lastTrigger.focus({ preventScroll: true });
+        });
+
+        if (!lightbox || !lightboxImg) return;
+        const prevBtn = lightbox.querySelector('.lightbox__nav--prev');
+        const nextBtn = lightbox.querySelector('.lightbox__nav--next');
+        const counter = lightbox.querySelector('#lightbox-count');
+
+        const mostrar = (i) => {
+            if (!fotos.length) return;
+            indice = (i + fotos.length) % fotos.length;
+            lightboxImg.src = fotos[indice].src;
+            lightboxImg.alt = fotos[indice].alt;
+            const varias = fotos.length > 1;
+            prevBtn.hidden = !varias;
+            nextBtn.hidden = !varias;
+            counter.hidden = !varias;
+            counter.textContent = `${indice + 1} / ${fotos.length}`;
+        };
+
+        gallery.addEventListener('click', (e) => {
+            if (e.target.tagName !== 'IMG') return;
+            mostrar(Math.max(0, Array.from(gallery.children).indexOf(e.target)));
+            lightbox.showModal();
+        });
+
+        prevBtn.addEventListener('click', () => mostrar(indice - 1));
+        nextBtn.addEventListener('click', () => mostrar(indice + 1));
+        lightbox.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft') { e.preventDefault(); mostrar(indice - 1); }
+            if (e.key === 'ArrowRight') { e.preventDefault(); mostrar(indice + 1); }
+        });
+
+        // Clic en el fondo o en la foto cierra la vista ampliada
+        lightbox.addEventListener('click', (e) => {
+            if (e.target === lightbox || e.target === lightboxImg) lightbox.close();
+        });
+    }
+
+    /* ------------------------------------------------------------------
+       Videos: carga diferida, reproducción al verse y botón de pausa
+       ------------------------------------------------------------------ */
+    function initVideos() {
+        const cards = $$('.video-card');
+        if (!cards.length) return;
+
+        const loadSources = (video) => {
+            if (video.dataset.loaded) return;
+            $$('source', video).forEach((s) => {
+                if (s.dataset.src) s.src = s.dataset.src;
+            });
+            video.load();
+            video.dataset.loaded = '1';
+        };
+
+        const setPlaying = (card, playing) => {
+            card.classList.toggle('is-playing', playing);
+            const btn = $('.video-card__toggle', card);
+            const title = $('figcaption h4', card).textContent;
+            btn.setAttribute('aria-pressed', String(playing));
+            btn.setAttribute('aria-label', `${playing ? 'Pausar' : 'Reproducir'} video: ${title}`);
+        };
+
+        const play = (card) => {
+            const video = $('video', card);
+            loadSources(video);
+            const p = video.play();
+            if (p && typeof p.then === 'function') {
+                p.then(() => setPlaying(card, true)).catch(() => setPlaying(card, false));
+            } else {
+                setPlaying(card, true);
+            }
+        };
+
+        const pause = (card) => {
+            $('video', card).pause();
+            setPlaying(card, false);
+        };
+
+        // Botón manual: el usuario decide y se recuerda hasta que vuelva a entrar en pantalla
+        cards.forEach((card) => {
+            const btn = $('.video-card__toggle', card);
+            btn.addEventListener('click', () => {
+                const playing = card.classList.contains('is-playing');
+                card.dataset.userPaused = playing ? '1' : '0';
+                playing ? pause(card) : play(card);
+            });
+        });
+
+        if (!('IntersectionObserver' in window)) return;
+
+        // 1) Cargar el video cuando está cerca de pantalla
+        const loadObserver = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    loadSources($('video', entry.target));
+                    loadObserver.unobserve(entry.target);
+                }
+            });
+        }, { rootMargin: '200px 0px' });
+
+        // 2) Reproducir solo cuando al menos 60 % es visible; con movimiento reducido, no se reproduce solo
+        const playObserver = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                const card = entry.target;
+                if (reduceMotion.matches) return;
+                if (entry.intersectionRatio >= 0.6 && card.dataset.userPaused !== '1') {
+                    play(card);
+                } else if (entry.intersectionRatio < 0.6) {
+                    card.dataset.userPaused = '0';
+                    pause(card);
+                }
+            });
+        }, { threshold: [0, 0.6] });
+
+        cards.forEach((card) => {
+            loadObserver.observe(card);
+            playObserver.observe(card);
+        });
+    }
+
+    /* ------------------------------------------------------------------
+       Maquinaria: contador, resumen y selección para la cotización
+       ------------------------------------------------------------------ */
+    function initMachinery() {
+        const boxes = $$('.machine-card input[type="checkbox"]');
+        const count = $('#maq-count');
+        const picked = $('#maquinaria-elegida');
+        const pickedList = $('#maquinaria-lista');
+        const hidden = $('#maquinaria_solicitada');
+        if (!boxes.length) return;
+
+        const update = () => {
+            const selected = boxes.filter(b => b.checked).map(b => b.value);
+            if (count) {
+                count.textContent = selected.length
+                    ? `${selected.length} seleccionada${selected.length > 1 ? 's' : ''}`
+                    : 'Ninguna seleccionada';
+            }
+            if (picked) picked.hidden = selected.length === 0;
+            if (pickedList) pickedList.textContent = selected.join(', ');
+            if (hidden) {
+                hidden.value = selected.length
+                    ? 'Maquinaria solicitada: ' + selected.join(', ')
+                    : 'No se seleccionó maquinaria.';
+            }
+        };
+
+        boxes.forEach(b => b.addEventListener('change', update));
+        update();
+        window.giycMachineryReset = () => { boxes.forEach(b => { b.checked = false; }); update(); };
+    }
+
+    /* ------------------------------------------------------------------
+       Formulario de contacto: envío sin recargar la página
+       ------------------------------------------------------------------ */
+    function initForm() {
+        const form = $('#contact-form');
+        const status = $('#form-status');
+        if (!form || !status) return;
+
+        form.addEventListener('submit', async (e) => {
+            if (!form.checkValidity()) return; // el navegador muestra los avisos
+            e.preventDefault();
+
+            const submit = form.querySelector('button[type="submit"]');
+            submit.disabled = true;
+            status.className = 'form-status';
+            status.textContent = 'Enviando tu solicitud…';
+
+            try {
+                const res = await fetch(form.action, {
+                    method: 'POST',
+                    body: new FormData(form),
+                    headers: { Accept: 'application/json' },
+                });
+                if (!res.ok) throw new Error('HTTP ' + res.status);
+                form.reset();
+                if (window.giycMachineryReset) window.giycMachineryReset();
+                status.classList.add('is-ok');
+                status.textContent = '¡Gracias! Recibimos tu solicitud y te contactaremos pronto.';
+            } catch (err) {
+                status.classList.add('is-error');
+                status.textContent = 'No pudimos enviar tu mensaje. Inténtalo de nuevo o llámanos al (341) 412 9265.';
+            } finally {
+                submit.disabled = false;
+            }
+        });
+    }
+})();
