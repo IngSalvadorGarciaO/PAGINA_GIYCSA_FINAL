@@ -591,104 +591,68 @@ h1,
     margin-top: clamp(48px, 7vw, 72px);
 }
 
-/* ---------- 8. Carruseles (un solo componente para todo el sitio) ---------- */
-.carousel {
-    position: relative;
-}
-
-.carousel__viewport {
-    position: relative;
-    overflow-x: auto;
-    overflow-y: hidden;
-    scroll-snap-type: x mandatory;
-    scroll-padding-inline: var(--edge);
-    scroll-behavior: smooth;
-    overscroll-behavior-x: contain;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
-    padding-bottom: 6px;
-    outline-offset: -4px;
-}
-
-.carousel__viewport::-webkit-scrollbar {
-    display: none;
-}
-
-.carousel__track {
-    display: flex;
-    gap: 22px;
-    width: max-content;
-    padding-inline: var(--edge);
-    padding-bottom: 6px;
-}
-
-.carousel__slide {
-    flex: 0 0 auto;
-    scroll-snap-align: start;
-}
-
-.carousel__viewport.is-dragging {
-    scroll-snap-type: none;
-    scroll-behavior: auto;
-    cursor: grabbing;
-    user-select: none;
-}
-
-.carousel__viewport img {
-    -webkit-user-drag: none;
-    user-select: none;
-}
-
-/* Flechas: solo en equipos con mouse (pantallas grandes) */
-.carousel__btn {
-    display: none;
-}
-
-.carousel__dots {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 4px;
-    margin-top: 14px;
-}
-
-.carousel:not(.has-overflow) .carousel__dots {
-    display: none;
-}
-
-.carousel__dot {
-    width: 44px;
-    height: 44px;
-    display: grid;
-    place-items: center;
+/* ---------- 8. Cuadrículas: obras, servicios, videos y maquinaria ---------- */
+.grid {
+    list-style: none;
+    margin: 0;
     padding: 0;
-    border: 0;
-    background: none;
-    cursor: pointer;
-    color: inherit;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
 }
 
-.carousel__dot::before {
-    content: '';
-    width: 10px;
-    height: 10px;
-    border-radius: 999px;
-    background: currentColor;
-    opacity: 0.35;
-    transition: width 0.3s var(--ease), opacity 0.3s;
+.grid > li {
+    min-width: 0;
 }
 
-.carousel__dot[aria-current="true"]::before {
-    width: 28px;
-    background: var(--orange);
-    opacity: 1;
+@media (min-width: 600px) {
+    .grid--servicios,
+    .grid--obras,
+    .grid--maquinaria,
+    .grid--videos {
+        grid-template-columns: repeat(2, 1fr);
+    }
 }
 
-/* Tamaños de tarjetas por carrusel */
-.carousel--servicios .carousel__slide { width: min(360px, 82vw); }
-.carousel--obras .carousel__slide { width: min(560px, 84vw); }
-.carousel--videos .carousel__slide { width: min(600px, 86vw); }
-.carousel--maquinaria .carousel__slide { width: min(340px, 82vw); }
+@media (min-width: 960px) {
+    .grid--servicios,
+    .grid--obras,
+    .grid--maquinaria {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 28px;
+    }
+
+    .grid--videos {
+        gap: 28px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .grid--servicios {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+/* Botón "Ver todas las obras": solo en celular */
+.grid-more {
+    display: none;
+    margin-top: 28px;
+    text-align: center;
+}
+
+.grid-more .btn[hidden] {
+    display: none;
+}
+
+@media (max-width: 599px) {
+    .grid--obras .is-extra {
+        display: none;
+    }
+
+    .grid-more {
+        display: block;
+    }
+}
 
 /* ---------- 9. Tarjetas: servicios ---------- */
 .service-card {
@@ -822,7 +786,7 @@ h1,
 }
 
 /* ---------- 10b. Obras: encabezado con filtros ---------- */
-.carousel__slide[hidden],
+.grid > li[hidden],
 .chip[hidden] {
     display: none;
 }
@@ -2182,9 +2146,6 @@ h1,
         grid-template-columns: repeat(4, 1fr);
         gap: 16px 20px;
     }
-
-    .carousel--obras .carousel__slide { width: min(580px, 60vw); }
-    .carousel--videos .carousel__slide { width: min(620px, 66vw); }
 }
 
 /* Escritorio: navegación completa y barra móvil oculta */
@@ -2272,11 +2233,6 @@ h1,
             linear-gradient(90deg, rgba(15, 16, 18, 0.92) 0%, rgba(15, 16, 18, 0.55) 55%, rgba(15, 16, 18, 0.2) 100%);
     }
 
-    .carousel--servicios .carousel__slide { width: 380px; }
-    .carousel--obras .carousel__slide { width: 600px; }
-    .carousel--videos .carousel__slide { width: 640px; }
-    .carousel--maquinaria .carousel__slide { width: 360px; }
-
     .service-card {
         height: 480px;
     }
@@ -2304,63 +2260,6 @@ h1,
 
 /* Escritorio con mouse: flechas visibles y arrastre */
 @media (min-width: 1100px) and (hover: hover) and (pointer: fine) {
-    .carousel__btn {
-        position: absolute;
-        top: 42%;
-        z-index: 5;
-        display: grid;
-        place-items: center;
-        width: 56px;
-        height: 56px;
-        border: 1px solid rgba(255, 255, 255, 0.35);
-        border-radius: 50%;
-        background: rgba(15, 16, 18, 0.85);
-        color: #fff;
-        cursor: pointer;
-        transform: translateY(-50%);
-        transition: background-color 0.2s, color 0.2s, opacity 0.2s, border-color 0.2s;
-        opacity: 0;
-        pointer-events: none;
-    }
-
-    .carousel__btn .icon {
-        width: 24px;
-        height: 24px;
-        stroke-width: 2.4;
-    }
-
-    .carousel__btn--prev { left: 14px; }
-    .carousel__btn--next { right: 14px; }
-
-    .carousel.has-overflow .carousel__btn {
-        opacity: 1;
-        pointer-events: auto;
-    }
-
-    .carousel__btn:hover:not(:disabled) {
-        background: var(--orange);
-        border-color: var(--orange);
-        color: var(--ink);
-    }
-
-    .carousel__btn:disabled {
-        opacity: 0.25;
-        cursor: default;
-    }
-
-    .carousel__viewport.can-drag {
-        cursor: grab;
-    }
-
-    .carousel__viewport::-webkit-scrollbar {
-        display: block;
-        height: 6px;
-    }
-
-    .carousel__viewport {
-        scrollbar-width: thin;
-        scrollbar-color: var(--orange) rgba(255, 255, 255, 0.12);
-    }
 
     .service-card:hover > img,
     .obra-card:hover > img {
@@ -2389,21 +2288,6 @@ h1,
     }
 }
 
-/* Carruseles en celular: sin barra visible, con deslizamiento nativo */
-@media (max-width: 1099px) {
-    .carousel__viewport {
-        scrollbar-width: none;
-    }
-
-    .carousel__viewport::-webkit-scrollbar {
-        display: none;
-    }
-
-    .carousel__track {
-        gap: 16px;
-    }
-}
-
 /* Preferencias de movimiento reducido */
 @media (prefers-reduced-motion: reduce) {
     html {
@@ -2416,10 +2300,6 @@ h1,
         animation-duration: 0.001ms !important;
         animation-iteration-count: 1 !important;
         transition-duration: 0.001ms !important;
-    }
-
-    .carousel__viewport {
-        scroll-behavior: auto;
     }
 
     .hero__slide {

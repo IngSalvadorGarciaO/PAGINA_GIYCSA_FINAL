@@ -9,12 +9,12 @@ Abre `index.html` en el navegador, o publícalo con GitHub Pages.
 - `index.html`: página principal (inicio, servicios, proyectos, maquinaria, clientes y contacto).
 - `aviso-de-privacidad.html`: aviso de privacidad (borrador, revisar con asesor legal antes de publicar).
 - `style.css`: estilos. Diseño primero para celular; luego tablet (960 px) y escritorio (1100 px).
-- `script.js`: carruseles (flechas, arrastre, puntos, teclado y deslizamiento), modal de obras, videos y formulario.
+- `script.js`: filtros de obras (con botón "ver todas" en celular), modal de obras, videos y formulario.
 - `images/` y `videos/`: multimedia. Las versiones `-m.webp` son para celular.
 - `images/cv/`: fotos tomadas del currículum 2026 de GIYC.
 
 ## Cómo editar
-- **Servicios, obras y maquinaria**: están en `index.html`, dentro de cada `<li class="carousel__slide">`.
+- **Servicios, obras, videos y maquinaria**: están en `index.html`, cada uno como `<li>` dentro de una cuadrícula (`ul.grid`).
 - **Datos de cada obra** (nombre, ubicación, categoría, descripción y fotos): en `PROYECTOS` dentro de `script.js`. La categoría debe coincidir con `data-category` del `<li>` en `index.html` y con `data-filter` de los botones `.chip`.
 - **Colores**: variables al inicio de `style.css` (`--orange`, `--ink`, `--concrete`).
 - **Formulario**: se envía con Formspree (`action` en `index.html`).

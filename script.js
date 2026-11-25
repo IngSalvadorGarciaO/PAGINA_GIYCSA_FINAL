@@ -102,14 +102,12 @@
     };
 
     document.addEventListener('DOMContentLoaded', init);
-    window.addEventListener('load', () => $$('[data-carousel]').forEach(c => c._carousel && c._carousel.update()));
 
     function init() {
         setYear();
         initHeader();
         initMenu();
         initReveal();
-        $$('[data-carousel]').forEach(initCarousel);
         initFilters();
         initProjects();
         initVideos();
@@ -194,196 +192,20 @@
     }
 
     /* ------------------------------------------------------------------
-       Carrusel reutilizable
-       - Flechas (mouse), puntos (todos), arrastre con mouse
-       - Teclado: flechas izquierda/derecha, inicio y fin
-       - Celular: deslizamiento nativo con "scroll snap"
-       ------------------------------------------------------------------ */
-    function initCarousel(root) {
-        const viewport = $('.carousel__viewport', root);
-        const track = viewport && $('.carousel__track', viewport);
-        if (!viewport || !track) return;
-
-        let slides = Array.from(track.children);
-        if (!slides.length) return;
-
-        const label = root.dataset.label || 'carrusel';
-        let dots = [];
-        let prevBtn = null;
-        let nextBtn = null;
-
-        // Puntos de navegación (se reconstruyen cuando cambian los elementos visibles)
-        const dotsWrap = document.createElement('div');
-        dotsWrap.className = 'carousel__dots';
-        dotsWrap.setAttribute('role', 'group');
-        dotsWrap.setAttribute('aria-label', `Navegación de ${label}`);
-        root.appendChild(dotsWrap);
-
-        function buildDots() {
-            dotsWrap.innerHTML = '';
-            dots = slides.map((_, i) => {
-                const b = document.createElement('button');
-                b.type = 'button';
-                b.className = 'carousel__dot';
-                b.setAttribute('aria-label', `Ir al elemento ${i + 1} de ${slides.length}`);
-                b.addEventListener('click', () => goTo(i));
-                dotsWrap.appendChild(b);
-                return b;
-            });
-        }
-        buildDots();
-
-        // Flechas (CSS las muestra solo con mouse en escritorio)
-        const makeArrow = (dir) => {
-            const b = document.createElement('button');
-            b.type = 'button';
-            b.className = `carousel__btn carousel__btn--${dir === 1 ? 'next' : 'prev'}`;
-            b.setAttribute('aria-label', dir === 1 ? `Siguiente en ${label}` : `Anterior en ${label}`);
-            b.innerHTML = `<svg class="icon" aria-hidden="true"><use href="#${dir === 1 ? 'i-next' : 'i-prev'}"/></svg>`;
-            b.addEventListener('click', () => goTo(currentIndex() + dir));
-            root.appendChild(b);
-            return b;
-        };
-        prevBtn = makeArrow(-1);
-        nextBtn = makeArrow(1);
-
-        const edge = () => parseFloat(getComputedStyle(viewport).scrollPaddingLeft) || 0;
-        const maxScroll = () => Math.max(0, viewport.scrollWidth - viewport.clientWidth);
-
-        // Índice del elemento que está alineado a la izquierda
-        function currentIndex() {
-            if (viewport.scrollLeft >= maxScroll() - 2) return slides.length - 1;
-            const vpLeft = viewport.getBoundingClientRect().left;
-            let best = 0;
-            let bestDist = Infinity;
-            slides.forEach((s, i) => {
-                const dist = Math.abs(s.getBoundingClientRect().left - vpLeft - edge());
-                if (dist < bestDist) {
-                    bestDist = dist;
-                    best = i;
-                }
-            });
-            return best;
-        }
-
-        function goTo(index) {
-            const i = Math.max(0, Math.min(slides.length - 1, index));
-            const delta = slides[i].getBoundingClientRect().left - viewport.getBoundingClientRect().left;
-            const left = Math.max(0, Math.min(maxScroll(), viewport.scrollLeft + delta - edge()));
-            viewport.scrollTo({ left, behavior: reduceMotion.matches ? 'auto' : 'smooth' });
-        }
-
-        function update() {
-            const overflow = maxScroll() > 4;
-            root.classList.toggle('has-overflow', overflow);
-            if (!overflow) return;
-            const i = currentIndex();
-            dots.forEach((d, k) => d.setAttribute('aria-current', k === i ? 'true' : 'false'));
-            prevBtn.disabled = viewport.scrollLeft <= 2;
-            nextBtn.disabled = viewport.scrollLeft >= maxScroll() - 2;
-        }
-
-        let frame = 0;
-        viewport.addEventListener('scroll', () => {
-            cancelAnimationFrame(frame);
-            frame = requestAnimationFrame(update);
-        }, { passive: true });
-        window.addEventListener('resize', update, { passive: true });
-
-        // Teclado: la lista es enfocable
-        viewport.addEventListener('keydown', (e) => {
-            if (e.key === 'ArrowRight') { e.preventDefault(); goTo(currentIndex() + 1); }
-            if (e.key === 'ArrowLeft') { e.preventDefault(); goTo(currentIndex() - 1); }
-            if (e.key === 'Home') { e.preventDefault(); goTo(0); }
-            if (e.key === 'End') { e.preventDefault(); goTo(slides.length - 1); }
-        });
-
-        // Arrastre con mouse (en celular se usa el deslizamiento nativo)
-        let dragging = false;
-        let startX = 0;
-        let lastX = 0;
-        let startLeft = 0;
-        let startIndex = 0;
-        let pointerId = null;
-
-        viewport.addEventListener('dragstart', (e) => e.preventDefault());
-
-        viewport.addEventListener('pointerdown', (e) => {
-            if (e.pointerType !== 'mouse' || e.button !== 0) return;
-            dragging = true;
-            startX = e.clientX;
-            lastX = e.clientX;
-            startLeft = viewport.scrollLeft;
-            startIndex = currentIndex();
-            pointerId = e.pointerId;
-            viewport.dataset.dragMoved = '0';
-        });
-
-        viewport.addEventListener('pointermove', (e) => {
-            if (!dragging) return;
-            lastX = e.clientX;
-            const dx = e.clientX - startX;
-            if (!viewport.classList.contains('is-dragging') && Math.abs(dx) > 6) {
-                viewport.classList.add('is-dragging');
-                viewport.setPointerCapture(pointerId);
-                viewport.dataset.dragMoved = '1';
-            }
-            if (viewport.classList.contains('is-dragging')) {
-                viewport.scrollLeft = startLeft - dx;
-            }
-        });
-
-        // Al soltar: un arrastre de más de 50 px avanza al menos una tarjeta;
-        // uno más largo avanza proporcionalmente al recorrido.
-        const endDrag = () => {
-            if (!dragging) return;
-            dragging = false;
-            if (!viewport.classList.contains('is-dragging')) return;
-            viewport.classList.remove('is-dragging');
-            const dx = lastX - startX;
-            const step = slides.length > 1
-                ? slides[1].getBoundingClientRect().left - slides[0].getBoundingClientRect().left
-                : 1;
-            let n = Math.round(Math.abs(dx) / step);
-            if (Math.abs(dx) > 50 && n === 0) n = 1;
-            goTo(startIndex + Math.sign(-dx) * n);
-        };
-        viewport.addEventListener('pointerup', endDrag);
-        viewport.addEventListener('pointercancel', endDrag);
-
-        // Si se arrastró, el clic que sigue no debe abrir nada
-        viewport.addEventListener('click', (e) => {
-            if (viewport.dataset.dragMoved === '1') {
-                e.preventDefault();
-                e.stopPropagation();
-                viewport.dataset.dragMoved = '0';
-            }
-        }, true);
-
-        if (mouseDevice.matches) viewport.classList.add('can-drag');
-
-        // Vuelve a leer los elementos visibles (por ejemplo, después de filtrar)
-        function refresh() {
-            slides = Array.from(track.children).filter(s => !s.hidden);
-            buildDots();
-            update();
-        }
-
-        root._carousel = { update, goTo, refresh };
-        update();
-    }
-
-    /* ------------------------------------------------------------------
-       Filtros de obras: Todas, Residencial, Infraestructura, Comercial
+       Filtros de obras: Todas, Agroindustria, Obra pública, etc.
+       En celular se muestran 6 obras y un botón para ver todas
        ------------------------------------------------------------------ */
     function initFilters() {
         const bar = $('.filters');
-        const root = $('.carousel--obras');
-        if (!bar || !root) return;
+        const list = $('#obras-lista');
+        if (!bar || !list) return;
 
-        const items = $$('.carousel__slide', root);
+        const items = $$('li[data-category]', list);
         const buttons = $$('.chip', bar);
         const status = $('#filtro-estado');
+        const more = $('#obras-mas');
+        const LIMITE = 6;
+        let expandida = false;
         const visible = (filtro, li) => filtro === 'todas' || li.dataset.category === filtro;
 
         buttons.forEach((b) => {
@@ -392,18 +214,38 @@
             if (n === 0) b.hidden = true;
         });
 
+        const actualizar = (anunciar) => {
+            const cumplen = items.filter(li => !li.hidden);
+            // Solo afecta a celular (CSS): las obras de más se ocultan
+            cumplen.forEach((li, i) => li.classList.toggle('is-extra', !expandida && i >= LIMITE));
+            if (more) {
+                more.hidden = cumplen.length <= LIMITE;
+                more.setAttribute('aria-expanded', String(expandida));
+                more.textContent = expandida ? 'Ver menos obras' : `Ver todas las obras (${cumplen.length})`;
+            }
+            if (anunciar && status) {
+                status.textContent = `Mostrando ${cumplen.length} ${cumplen.length === 1 ? 'obra' : 'obras'}.`;
+            }
+        };
+
         bar.addEventListener('click', (e) => {
             const btn = e.target.closest('.chip');
             if (!btn) return;
-            const filtro = btn.dataset.filter;
             buttons.forEach(b => b.setAttribute('aria-pressed', String(b === btn)));
-            items.forEach(li => { li.hidden = !visible(filtro, li); });
-            const viewport = $('.carousel__viewport', root);
-            if (viewport) viewport.scrollLeft = 0;
-            if (root._carousel) root._carousel.refresh();
-            const n = items.filter(li => !li.hidden).length;
-            if (status) status.textContent = `Mostrando ${n} ${n === 1 ? 'obra' : 'obras'}.`;
+            items.forEach(li => { li.hidden = !visible(btn.dataset.filter, li); });
+            expandida = false;
+            actualizar(true);
         });
+
+        if (more) {
+            more.addEventListener('click', () => {
+                expandida = !expandida;
+                actualizar(false);
+                if (!expandida) $('.obras-head').scrollIntoView({ block: 'start' });
+            });
+        }
+
+        actualizar(false);
     }
 
     /* ------------------------------------------------------------------

@@ -155,10 +155,9 @@
                 </header>
             </div>
 
-            <div class="carousel carousel--servicios" data-carousel data-label="servicios">
-                <div class="carousel__viewport" tabindex="0" role="region" aria-label="Lista de servicios. Usa las flechas, arrastra o desliza.">
-                    <ul class="carousel__track">
-                        <li class="carousel__slide">
+            <div class="container">
+                <ul class="grid grid--servicios">
+                        <li>
                             <article class="service-card">
                                 <img src="images/servicios/credito.webp" alt="" loading="lazy" draggable="false">
                                 <div class="service-card__body">
@@ -167,7 +166,7 @@
                                 </div>
                             </article>
                         </li>
-                        <li class="carousel__slide">
+                        <li>
                             <article class="service-card">
                                 <img src="images/servicios/inmobiliaria.webp" alt="" loading="lazy" draggable="false">
                                 <div class="service-card__body">
@@ -176,7 +175,7 @@
                                 </div>
                             </article>
                         </li>
-                        <li class="carousel__slide">
+                        <li>
                             <article class="service-card">
                                 <img src="images/servicios/infraestructura.webp" alt="" loading="lazy" draggable="false">
                                 <div class="service-card__body">
@@ -185,7 +184,7 @@
                                 </div>
                             </article>
                         </li>
-                        <li class="carousel__slide">
+                        <li>
                             <article class="service-card">
                                 <img src="images/servicios/agricola.webp" alt="" loading="lazy" draggable="false">
                                 <div class="service-card__body">
@@ -194,7 +193,7 @@
                                 </div>
                             </article>
                         </li>
-                        <li class="carousel__slide">
+                        <li>
                             <article class="service-card">
                                 <img src="images/servicios/edificacion.webp" alt="" loading="lazy" draggable="false">
                                 <div class="service-card__body">
@@ -203,7 +202,7 @@
                                 </div>
                             </article>
                         </li>
-                        <li class="carousel__slide">
+                        <li>
                             <article class="service-card">
                                 <img src="images/servicios/renta.webp" alt="" loading="lazy" draggable="false">
                                 <div class="service-card__body">
@@ -212,7 +211,7 @@
                                 </div>
                             </article>
                         </li>
-                        <li class="carousel__slide">
+                        <li>
                             <article class="service-card">
                                 <img src="images/servicios/topografia.webp" alt="" loading="lazy" draggable="false">
                                 <div class="service-card__body">
@@ -221,8 +220,7 @@
                                 </div>
                             </article>
                         </li>
-                    </ul>
-                </div>
+                </ul>
             </div>
             <div class="container info-block">
                 <h3 class="subhead">Especialidades técnicas</h3>
@@ -290,10 +288,9 @@
                 <p class="visually-hidden" id="filtro-estado" aria-live="polite"></p>
             </div>
 
-            <div class="carousel carousel--obras" data-carousel data-label="obras realizadas">
-                <div class="carousel__viewport" tabindex="0" role="region" aria-label="Obras realizadas. Usa las flechas, arrastra o desliza.">
-                    <ul class="carousel__track">
-                        <li class="carousel__slide" data-category="edificacion">
+            <div class="container">
+                <ul class="grid grid--obras" id="obras-lista">
+                        <li data-category="edificacion">
                             <button class="obra-card" type="button" data-project-id="lomas-del-barro">
                                 <img src="images/mosaico/fachada-lomas.webp" srcset="images/mosaico/fachada-lomas-m.webp 700w, images/mosaico/fachada-lomas.webp 1100w" sizes="(max-width: 1099px) 84vw, 560px" alt="Fachada de Casa Lomas del Barro" loading="lazy" draggable="false">
                                 <span class="obra-card__caption">
@@ -303,7 +300,7 @@
                                 </span>
                             </button>
                         </li>
-                        <li class="carousel__slide" data-category="edificacion">
+                        <li data-category="edificacion">
                             <button class="obra-card" type="button" data-project-id="callejones">
                                 <img src="images/mosaico/fachada-callejones.webp" srcset="images/mosaico/fachada-callejones-m.webp 700w, images/mosaico/fachada-callejones.webp 1100w" sizes="(max-width: 1099px) 84vw, 560px" alt="Fachada de Casa Callejones" loading="lazy" draggable="false">
                                 <span class="obra-card__caption">
@@ -313,7 +310,7 @@
                                 </span>
                             </button>
                         </li>
-                        <li class="carousel__slide" data-category="edificacion">
+                        <li data-category="edificacion">
                             <button class="obra-card" type="button" data-project-id="depas-zapotiltic">
                                 <img src="images/mosaico/fachada-zapo.webp" srcset="images/mosaico/fachada-zapo-m.webp 700w, images/mosaico/fachada-zapo.webp 1100w" sizes="(max-width: 1099px) 84vw, 560px" alt="Fachada del Edificio de Departamentos en Zapotiltic" loading="lazy" draggable="false">
                                 <span class="obra-card__caption">
@@ -323,7 +320,7 @@
                                 </span>
                             </button>
                         </li>
-                        <li class="carousel__slide" data-category="obra-publica">
+                        <li data-category="obra-publica">
                             <button class="obra-card" type="button" data-project-id="carretera-sanmiguel">
                                 <img src="images/mosaico/carretera-sanmiguel.webp" srcset="images/mosaico/carretera-sanmiguel-m.webp 700w, images/mosaico/carretera-sanmiguel.webp 1100w" sizes="(max-width: 1099px) 84vw, 560px" alt="Carretera San Miguel, El Platanar" loading="lazy" draggable="false">
                                 <span class="obra-card__caption">
@@ -333,7 +330,7 @@
                                 </span>
                             </button>
                         </li>
-                        <li class="carousel__slide" data-category="edificacion">
+                        <li data-category="edificacion">
                             <button class="obra-card" type="button" data-project-id="casa-maple">
                                 <img src="images/mosaico/maple.webp" srcset="images/mosaico/maple-m.webp 700w, images/mosaico/maple.webp 1100w" sizes="(max-width: 1099px) 84vw, 560px" alt="Casa Maple" loading="lazy" draggable="false">
                                 <span class="obra-card__caption">
@@ -343,7 +340,7 @@
                                 </span>
                             </button>
                         </li>
-                        <li class="carousel__slide" data-category="edificacion">
+                        <li data-category="edificacion">
                             <button class="obra-card" type="button" data-project-id="casa-lazaro">
                                 <img src="images/mosaico/fachada-lazaro.webp" srcset="images/mosaico/fachada-lazaro-m.webp 700w, images/mosaico/fachada-lazaro.webp 1100w" sizes="(max-width: 1099px) 84vw, 560px" alt="Fachada de Casa Lázaro Cárdenas" loading="lazy" draggable="false">
                                 <span class="obra-card__caption">
@@ -353,7 +350,7 @@
                                 </span>
                             </button>
                         </li>
-                        <li class="carousel__slide" data-category="edificacion">
+                        <li data-category="edificacion">
                             <button class="obra-card" type="button" data-project-id="nucleo-medico">
                                 <img src="images/mosaico/fachada-nucleo.webp" srcset="images/mosaico/fachada-nucleo-m.webp 700w, images/mosaico/fachada-nucleo.webp 1100w" sizes="(max-width: 1099px) 84vw, 560px" alt="Fachada del Núcleo Médico HZ" loading="lazy" draggable="false">
                                 <span class="obra-card__caption">
@@ -363,7 +360,7 @@
                                 </span>
                             </button>
                         </li>
-                        <li class="carousel__slide" data-category="agroindustria">
+                        <li data-category="agroindustria">
                             <button class="obra-card" type="button" data-project-id="plataformas-agricolas">
                                 <img src="images/cv/plataforma-excavadora.webp" alt="Excavadora nivelando una plataforma agrícola junto a un camión de volteo" loading="lazy" draggable="false">
                                 <span class="obra-card__caption">
@@ -373,7 +370,7 @@
                                 </span>
                             </button>
                         </li>
-                        <li class="carousel__slide" data-category="agroindustria">
+                        <li data-category="agroindustria">
                             <button class="obra-card" type="button" data-project-id="nave-empaque">
                                 <img src="images/cv/empaque-piso.webp" alt="Acabado de piso de concreto en una nave de empaque agroindustrial" loading="lazy" draggable="false">
                                 <span class="obra-card__caption">
@@ -383,7 +380,7 @@
                                 </span>
                             </button>
                         </li>
-                        <li class="carousel__slide" data-category="obra-publica">
+                        <li data-category="obra-publica">
                             <button class="obra-card" type="button" data-project-id="carreteras-pavimentacion">
                                 <img src="images/cv/carretera-amplia.webp" alt="Carretera rural de dos carriles con paisaje agrícola" loading="lazy" draggable="false">
                                 <span class="obra-card__caption">
@@ -393,7 +390,7 @@
                                 </span>
                             </button>
                         </li>
-                        <li class="carousel__slide" data-category="infraestructura-equipamiento">
+                        <li data-category="infraestructura-equipamiento">
                             <button class="obra-card" type="button" data-project-id="equipamiento-salud-educativo">
                                 <img src="images/cv/centro-salud.webp" alt="Fachada de un centro de salud de primer contacto" loading="lazy" draggable="false">
                                 <span class="obra-card__caption">
@@ -403,7 +400,7 @@
                                 </span>
                             </button>
                         </li>
-                        <li class="carousel__slide" data-category="edificacion">
+                        <li data-category="edificacion">
                             <button class="obra-card" type="button" data-project-id="nave-industrial">
                                 <img src="images/cv/estructura-nave.webp" alt="Estructura metálica de cubierta de una nave industrial" loading="lazy" draggable="false">
                                 <span class="obra-card__caption">
@@ -413,7 +410,9 @@
                                 </span>
                             </button>
                         </li>
-                    </ul>
+                </ul>
+                <div class="grid-more">
+                    <button class="btn btn--ghost" type="button" id="obras-mas" aria-controls="obras-lista" aria-expanded="false" hidden>Ver todas las obras</button>
                 </div>
             </div>
 
@@ -421,10 +420,9 @@
                 <h3 class="subhead subhead--spaced">Proyectos en video</h3>
             </div>
 
-            <div class="carousel carousel--videos" data-carousel data-label="proyectos en video">
-                <div class="carousel__viewport" tabindex="0" role="region" aria-label="Proyectos en video. Usa las flechas, arrastra o desliza.">
-                    <ul class="carousel__track">
-                        <li class="carousel__slide">
+            <div class="container">
+                <ul class="grid grid--videos">
+                        <li>
                             <figure class="video-card">
                                 <div class="video-card__frame">
                                     <video muted loop playsinline preload="none" poster="images/proyectos/posters/reservorio.webp" aria-label="Video: Construcción de Reservorio Agrícola">
@@ -442,7 +440,7 @@
                                 </figcaption>
                             </figure>
                         </li>
-                        <li class="carousel__slide">
+                        <li>
                             <figure class="video-card">
                                 <div class="video-card__frame">
                                     <video muted loop playsinline preload="none" poster="images/proyectos/posters/pavimentacion.webp" aria-label="Video: Pavimentación de Vía Urbana">
@@ -460,7 +458,7 @@
                                 </figcaption>
                             </figure>
                         </li>
-                        <li class="carousel__slide">
+                        <li>
                             <figure class="video-card">
                                 <div class="video-card__frame">
                                     <video muted loop playsinline preload="none" poster="images/proyectos/posters/nucleo-medico.webp" aria-label="Video: Núcleo Médico de Especialidades">
@@ -478,7 +476,7 @@
                                 </figcaption>
                             </figure>
                         </li>
-                        <li class="carousel__slide">
+                        <li>
                             <figure class="video-card video-card--portrait">
                                 <div class="video-card__frame">
                                     <video muted loop playsinline preload="none" poster="images/proyectos/posters/nave-industrial.webp" aria-label="Video: Construcción de Nave Industrial">
@@ -496,8 +494,7 @@
                                 </figcaption>
                             </figure>
                         </li>
-                    </ul>
-                </div>
+                </ul>
             </div>
             <div class="container">
                 <h3 class="subhead subhead--spaced">Trayectoria completa por categoría</h3>
@@ -580,10 +577,9 @@
                 </div>
             </div>
 
-            <div class="carousel carousel--maquinaria" data-carousel data-label="maquinaria">
-                <div class="carousel__viewport" tabindex="0" role="region" aria-label="Maquinaria disponible. Usa las flechas, arrastra o desliza.">
-                    <ul class="carousel__track">
-                        <li class="carousel__slide">
+            <div class="container">
+                <ul class="grid grid--maquinaria">
+                        <li>
                             <article class="machine-card">
                                 <div class="machine-card__media"><img src="images/maquinaria/maquina-excavadora.webp" alt="Excavadora Caterpillar 320DL" loading="lazy" draggable="false"></div>
                                 <div class="machine-card__body">
@@ -600,7 +596,7 @@
                                 </div>
                             </article>
                         </li>
-                        <li class="carousel__slide">
+                        <li>
                             <article class="machine-card">
                                 <div class="machine-card__media"><img src="images/maquinaria/maquina-retroexcavadora.webp" alt="Retroexcavadora Caterpillar 416E" loading="lazy" draggable="false"></div>
                                 <div class="machine-card__body">
@@ -617,7 +613,7 @@
                                 </div>
                             </article>
                         </li>
-                        <li class="carousel__slide">
+                        <li>
                             <article class="machine-card">
                                 <div class="machine-card__media"><img src="images/maquinaria/maquina-motoconformadora.webp" alt="Motoconformadora Caterpillar 140H" loading="lazy" draggable="false"></div>
                                 <div class="machine-card__body">
@@ -634,7 +630,7 @@
                                 </div>
                             </article>
                         </li>
-                        <li class="carousel__slide">
+                        <li>
                             <article class="machine-card">
                                 <div class="machine-card__media"><img src="images/maquinaria/maquina-bulldozer.webp" alt="Bulldozer Caterpillar D6R XL" loading="lazy" draggable="false"></div>
                                 <div class="machine-card__body">
@@ -651,7 +647,7 @@
                                 </div>
                             </article>
                         </li>
-                        <li class="carousel__slide">
+                        <li>
                             <article class="machine-card">
                                 <div class="machine-card__media"><img src="images/maquinaria/maquinaria-minicargador.webp" alt="Minicargador Caterpillar 262D" loading="lazy" draggable="false"></div>
                                 <div class="machine-card__body">
@@ -668,7 +664,7 @@
                                 </div>
                             </article>
                         </li>
-                        <li class="carousel__slide">
+                        <li>
                             <article class="machine-card">
                                 <div class="machine-card__media"><img src="images/maquinaria/maquinaria-rodillo.webp" alt="Rodillo Dynapac CA250" loading="lazy" draggable="false"></div>
                                 <div class="machine-card__body">
@@ -685,8 +681,7 @@
                                 </div>
                             </article>
                         </li>
-                    </ul>
-                </div>
+                </ul>
             </div>
             <div class="container info-block">
                 <h3 class="subhead">Equipo disponible por categoría</h3>
@@ -881,14 +876,7 @@
                 <div class="table-wrap">
                     <table class="datos-table">
                         <tbody>
-                            <tr><th scope="row">Nombre comercial</th><td>GIYCSA · García Inmobiliaria y Construcción</td></tr>
                             <tr><th scope="row">Razón social</th><td>GIYC, S.A. de C.V.</td></tr>
-                            <tr><th scope="row">Representante legal</th><td>Arq. José Salvador García Guzmán</td></tr>
-                            <tr><th scope="row">RFC</th><td>GIY1506302X2</td></tr>
-                            <tr><th scope="row">Constitución</th><td>30 de junio de 2015</td></tr>
-                            <tr><th scope="row">Registro de contratista SIOP</th><td>C-0391</td></tr>
-                            <tr><th scope="row">Domicilio matriz</th><td>Federico del Toro núm. 591, Col. Centro, Ciudad Guzmán, Jalisco, C.P. 49000</td></tr>
-                            <tr><th scope="row">Sucursal</th><td>Hidalgo núm. 805, Col. Centro, Ciudad Guzmán, Jalisco</td></tr>
                             <tr><th scope="row">Teléfonos</th><td>(341) 412 9265 · (341) 412 6048</td></tr>
                             <tr><th scope="row">WhatsApp</th><td>33 1024 4077</td></tr>
                             <tr><th scope="row">Correo electrónico</th><td><a href="mailto:giycsa@hotmail.com">giycsa@hotmail.com</a></td></tr>
